@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+
+  --color-pearl: #FAFAFF;
+  --color-pearl-warm: #F8F6F3;
+  --color-rosewater: #FFE8F2;
+  --color-rosewater-deep: #FFD1E3;
+  --color-rosewater-accent: #F9A8C9;
+  --color-sky-baby: #E0F4FF;
+  --color-sky-baby-deep: #B8E4FF;
+  --color-sky-accent: #7CC8F0;
+  --color-slate-deep: #1E293B;
+  --color-slate-muted: #475569;
+  --color-slate-light: #64748B;
+  --color-lavender: #EDE9FE;
+  --color-lavender-deep: #DDD6FE;
+  --color-gold-warm: #FEF3C7;
+  --color-gold-accent: #F59E0B;
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-float-delayed: float 8s ease-in-out 2s infinite;
+  --animate-float-slow: float 10s ease-in-out 4s infinite;
+  --animate-pulse-soft: pulse-soft 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-20px) scale(1.05); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.9; }
+}
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-slate-deep);
+  background-color: var(--color-pearl);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-pearl);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-lavender-deep);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9771e3;
+}
