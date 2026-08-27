@@ -216,7 +216,6 @@ export default function FAQPage() {
         
         <div className="hidden lg:flex items-center gap-8 xl:gap-10">
           <a href="/" className="text-[15px] font-bold text-[#475569] hover:text-[#9771e3] transition-colors">Home</a>
-          <a href="/#about" className="text-[15px] font-bold text-[#475569] hover:text-[#9771e3] transition-colors">About</a>
           <a href="/#blog-page" className="text-[15px] font-bold text-[#475569] hover:text-[#9771e3] transition-colors">Blogs</a>
           <a href="/#services-page" className="text-[15px] font-bold text-[#475569] hover:text-[#9771e3] transition-colors">Services</a>
           <a href="/#faqs-page" className="text-[15px] font-bold text-[#9771e3] transition-colors">FAQ's</a>
