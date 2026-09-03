@@ -10,6 +10,7 @@ import {
 } from "../data/practice.js";
 import { serviceCategories, servicesData } from "../data/services.js";
 import Layout from "../components/Layout.jsx";
+import DoctorPortrait from "../components/DoctorPortrait.jsx";
 import { useBooking } from "../components/Booking.jsx";
 
 /**
@@ -24,11 +25,8 @@ export default function AboutPage() {
     <Layout className="bg-[#FAFAFF]">
       <section className="bg-white py-16 border-b border-[#9771e3]/10">
         <div className="max-w-5xl mx-auto px-5 sm:px-8 lg:px-12 flex flex-col md:flex-row gap-10 items-center">
-          <img
-            src="/poonam.png"
-            alt={`${doctor.name}, ${doctor.jobTitle} in Mumbai`}
-            width="320"
-            height="420"
+          <DoctorPortrait
+            priority
             className="w-48 md:w-64 rounded-2xl object-cover shadow-lg border-4 border-[#9771e3]/15"
           />
           <div>

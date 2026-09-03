@@ -37,7 +37,7 @@ export default function Navbar() {
       >
         <Link to="/" className="flex items-center gap-3 shrink-0">
           <img
-            src="/logo.png"
+            src="/logo-192.png"
             alt={`${doctor.name}, Gynaecologist and Obstetrician in Mumbai`}
             width="48"
             height="48"

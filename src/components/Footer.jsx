@@ -33,7 +33,7 @@ export default function Footer() {
           <div className="space-y-5">
             <div className="flex items-center gap-3">
               <img
-                src="/logo.png"
+                src="/logo-192.png"
                 alt={`${doctor.name} logo`}
                 width="48"
                 height="48"

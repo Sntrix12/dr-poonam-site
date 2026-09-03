@@ -23,7 +23,7 @@ import {
   graph,
 } from "./schema.js";
 
-export const DEFAULT_OG_IMAGE = "/poonam.png";
+export const DEFAULT_OG_IMAGE = "/poonam.jpg";
 
 /** Every page carries the physician entity, so any single page is enough for a crawler. */
 const withBase = (nodes = []) => graph([physicianSchema(), websiteSchema(), ...nodes]);

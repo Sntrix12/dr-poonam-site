@@ -12,6 +12,7 @@ import { testimonials } from "../data/testimonials.js";
 import { allFaqs } from "../data/faqs.js";
 import Layout from "../components/Layout.jsx";
 import Reveal from "../components/Reveal.jsx";
+import DoctorPortrait from "../components/DoctorPortrait.jsx";
 import { openWhatsApp, useBooking } from "../components/Booking.jsx";
 
 function ServiceCategoryCard({ category, delay }) {
@@ -101,14 +102,7 @@ export default function HomePage() {
 
             <div className="flex-1 w-full max-w-xs sm:max-w-sm lg:max-w-md">
               <div className="relative aspect-[3/4] w-full rounded-2xl overflow-hidden shadow-2xl border-[8px] border-white/25 bg-white/10">
-                <img
-                  src="/poonam.png"
-                  alt={`${doctor.name}, ${doctor.jobTitle} in Mumbai`}
-                  width="600"
-                  height="800"
-                  fetchPriority="high"
-                  className="object-cover w-full h-full"
-                />
+                <DoctorPortrait priority className="object-cover w-full h-full" />
               </div>
             </div>
           </div>
