@@ -1,16 +1,48 @@
-# React + Vite
+# drpoonamnautiyal.com
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Website for Dr. Poonam Nautiyal, Senior Consultant Gynaecologist & Obstetrician,
+Mumbai. React + Vite, prerendered to static HTML at build time, deployed on Vercel.
 
-Currently, two official plugins are available:
+## Commands
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev      # local dev server
+npm run build    # client build + SSR build + prerender + sitemap + llms.txt
+npm run lint
+```
 
-## React Compiler
+## Where things live
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Path | What it is |
+|---|---|
+| `src/data/practice.js` | **Every fact about the practice.** Name, address, phone, credentials, registration, languages, hospitals, profiles. Change facts here and nowhere else. |
+| `src/data/services.js` | The 11 services — copy, FAQs, and per-page meta tags. |
+| `src/data/faqs.js` | Site-wide FAQs. |
+| `src/data/testimonials.js` | Patient reviews, verbatim from Practo and Google. |
+| `src/data/areas.js` | The four local landing pages. |
+| `src/seo/routes.js` | The route list. Pages, sitemap and prerender all read from it. |
+| `src/seo/schema.js` | JSON-LD builders. |
+| `scripts/prerender.mjs` | Renders every route to static HTML; writes sitemap.xml and llms.txt. |
 
-## Expanding the Oxlint configuration
+## Two things to know before changing anything
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+**Adding a page means adding it to `src/seo/routes.js`.** That one list feeds the
+router, the prerenderer and the sitemap. A route missing from it will not be
+prerendered and will not be indexed.
+
+**The site is prerendered because AI crawlers do not run JavaScript.** GPTBot,
+ClaudeBot, PerplexityBot and OAI-SearchBot read raw HTML only. Anything that renders
+solely on the client is invisible to them, so avoid moving content behind an effect
+or a fetch. The build fails if a page renders too little text, renders with
+`opacity: 0`, emits no structured data, or renders the wrong component.
+
+**Do not add `aggregateRating` or `Review` structured data.** Self-published review
+markup for your own business violates Google's structured data policy and can earn a
+manual penalty. Reviews are shown as plain HTML with their source linked; Google gets
+the real rating from the Business Profile.
+
+## After deploying
+
+See [SEO-CHECKLIST.md](./SEO-CHECKLIST.md) — Search Console setup, Google Business
+Profile, and reviews. Those need a Google login and are not something the code can do.

@@ -67,3 +67,26 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #9771e3;
 }
+/* Scroll-reveal, driven by src/components/Reveal.jsx.
+   The un-revealed state is only ever applied by JavaScript, so content is never
+   hidden from a crawler or from a visitor whose JavaScript fails to load. */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out;
+}
+
+.reveal-shown {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
