@@ -1,0 +1,46 @@
+# https://www.drpoonamnautiyal.com/robots.txt
+
+User-agent: *
+Allow: /
+
+# Search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# AI answer engines. These are named explicitly so there is no ambiguity about
+# whether this site may be read and cited in AI answers — being quoted by them is
+# the point. Google-Extended controls eligibility for Google's AI Overviews.
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://www.drpoonamnautiyal.com/sitemap.xml
