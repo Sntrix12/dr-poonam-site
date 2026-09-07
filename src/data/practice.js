@@ -114,6 +114,19 @@ export const profiles = {
 export const sameAs = [profiles.practo, ...profiles.google];
 
 /**
+ * Google Search Console verification token — the value from the "HTML tag" method,
+ * i.e. only what sits inside content="...", not the whole tag.
+ *
+ * While this is empty no tag is emitted at all. That matters: Google treats an
+ * empty content attribute as a failed verification, which is worse than no tag.
+ *
+ * The other verification methods need nothing here — an HTML file goes straight
+ * into public/, and a DNS TXT record is added at the domain registrar.
+ * See SEO-CHECKLIST.md.
+ */
+export const googleSiteVerification = "";
+
+/**
  * Social proof. Every number carries the source it comes from and is labelled as
  * such on the page — an unattributed statistic on a medical site is a liability.
  *

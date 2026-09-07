@@ -22,9 +22,15 @@ const dist = path.join(root, "dist");
 const { routes, sitemapRoutes, SITE_URL, DEFAULT_OG_IMAGE } = await import(
   path.join(root, "src/seo/routes.js")
 );
-const { doctor, contact, clinic, openingHours, hospitals, profiles } = await import(
-  path.join(root, "src/data/practice.js")
-);
+const {
+  doctor,
+  contact,
+  clinic,
+  openingHours,
+  hospitals,
+  profiles,
+  googleSiteVerification,
+} = await import(path.join(root, "src/data/practice.js"));
 const { servicesData, serviceSlugs } = await import(path.join(root, "src/data/services.js"));
 const { allFaqs } = await import(path.join(root, "src/data/faqs.js"));
 const { areas } = await import(path.join(root, "src/data/areas.js"));
@@ -59,6 +65,13 @@ function buildHead(route) {
     `<meta name="author" content="${escapeHtml(doctor.name)}" />`,
     `<meta name="geo.region" content="IN-MH" />`,
     `<meta name="geo.placename" content="Mumbai" />`,
+    // Emitted only when a token is set — an empty content attribute reads to Google
+    // as a failed verification, so no tag is better than a blank one.
+    ...(googleSiteVerification
+      ? [
+          `<meta name="google-site-verification" content="${escapeHtml(googleSiteVerification)}" />`,
+        ]
+      : []),
     `<meta property="og:site_name" content="${escapeHtml(doctor.name)}" />`,
     `<meta property="og:locale" content="en_IN" />`,
     `<meta property="og:type" content="website" />`,
