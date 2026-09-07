@@ -23,7 +23,6 @@ const dist = path.join(root, "dist");
 const config = JSON.parse(fs.readFileSync(path.join(root, "vercel.json"), "utf8"));
 const { legacyRedirects, legacyGone } = await import(path.join(root, "src/seo/legacyRedirects.js"));
 const { routes } = await import(path.join(root, "src/seo/routes.js"));
-const gone = (await import(path.join(root, "api/gone.js"))).default;
 
 /** Minimal path-to-regexp: literal segments plus Vercel's `(.*)` wildcard. */
 const toRegex = (source) =>
@@ -69,16 +68,9 @@ const server = http.createServer((req, res) => {
     return res.end(fs.readFileSync(file));
   }
 
-  // 3. rewrites
+  // 3. rewrites (none configured — see the note on legacyGone)
   for (const rw of config.rewrites ?? []) {
     if (toRegex(rw.source).test(pathname)) {
-      if (rw.destination === "/api/gone") {
-        return gone(req, {
-          setHeader: (k, v) => res.setHeader(k, v),
-          status(code) { this._c = code; return this; },
-          send(body) { res.writeHead(this._c ?? 200); res.end(body); },
-        });
-      }
       const target = resolveFile(rw.destination);
       if (target) { res.writeHead(200, { "Content-Type": "text/html" }); return res.end(fs.readFileSync(target)); }
     }
@@ -127,18 +119,21 @@ for (const { from, to } of legacyRedirects) {
   console.log(`  301 ${from.padEnd(52)} -> ${to.padEnd(40)} 200`);
 }
 
-console.log("\n=== no equivalent -> 410 Gone ===");
+// Asserted as 404 rather than 410 on purpose. 410 needs a serverless function, and
+// adding one failed the Vercel deployment — see the note on legacyGone. Asserting the
+// behaviour we actually ship keeps this honest; when 410 is restored, this flips back.
+console.log("\n=== no equivalent -> 404 (410 pending, see legacyGone) ===");
 for (const { path: p } of legacyGone) {
   const r = await head(p);
-  if (r.status !== 410) failures.push(`${p}: expected 410, got ${r.status}`);
-  else console.log(`  410 ${p}`);
+  if (r.status !== 404) failures.push(`${p}: expected 404, got ${r.status}`);
+  else console.log(`  404 ${p}`);
 }
 
-console.log("\n=== catch-all for any other old .php URL ===");
+console.log("\n=== any other old .php URL falls through to 404, never a 200 ===");
 for (const p of ["/services.php", "/old-page.php", "/wp-admin/setup-config.php"]) {
   const r = await head(p);
-  if (r.status !== 410) failures.push(`${p}: expected 410 from catch-all, got ${r.status}`);
-  else console.log(`  410 ${p}`);
+  if (r.status !== 404) failures.push(`${p}: expected 404, got ${r.status}`);
+  else console.log(`  404 ${p}`);
 }
 
 console.log("\n=== all live routes still 200 with unique titles ===");
@@ -166,5 +161,5 @@ if (config.trailingSlash !== false) failures.push("trailingSlash was changed");
 server.close();
 console.log("\n" + (failures.length
   ? "FAILURES:\n" + failures.map((f) => "  - " + f).join("\n")
-  : `All ${legacyRedirects.length} redirects, ${legacyGone.length} gone URLs and ${routes.length} live routes behave correctly.`));
+  : `All ${legacyRedirects.length} redirects and ${routes.length} live routes behave correctly; ${legacyGone.length} unmapped URLs 404.`));
 process.exit(failures.length ? 1 : 0);

@@ -26,8 +26,7 @@ npm run lint
 | `scripts/prerender.mjs` | Renders every route to static HTML; writes sitemap.xml and llms.txt. |
 | `src/seo/legacyRedirects.js` | Redirects for the old PHP site. The single source of truth for `vercel.json`. |
 | `scripts/sync-redirects.mjs` | Regenerates `vercel.json` from that map (`npm run redirects`). `--check` runs in the build and fails on drift. |
-| `scripts/verify-redirects.mjs` | Serves `dist/` the way Vercel does and asserts every old URL 301s or 410s correctly (`npm run verify:redirects`). |
-| `api/gone.js` | Returns 410 for old URLs with no equivalent. |
+| `scripts/verify-redirects.mjs` | Serves `dist/` the way Vercel does and asserts every old URL redirects correctly (`npm run verify:redirects`). |
 
 ## Two things to know before changing anything
 

@@ -113,19 +113,5 @@
       "destination": "/services",
       "statusCode": 301
     }
-  ],
-  "rewrites": [
-    {
-      "source": "/gallery.php",
-      "destination": "/api/gone"
-    },
-    {
-      "source": "/important-links.php",
-      "destination": "/api/gone"
-    },
-    {
-      "source": "/(.*).php",
-      "destination": "/api/gone"
-    }
   ]
 }

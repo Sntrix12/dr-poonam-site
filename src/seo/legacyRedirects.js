@@ -151,12 +151,23 @@ export const legacyRedirects = [
 ];
 
 /**
- * Old URLs with no genuine equivalent. Served as 410 Gone via api/gone.js.
+ * Old URLs with no genuine equivalent.
  *
- * 410 rather than 404 because these are permanently gone and we want Google to drop
- * them, not keep retrying. 410 rather than a 301 to a vaguely-related page because
- * Google treats an irrelevant redirect as a soft 404 — it passes no equity and it
- * lands a visitor somewhere they did not ask for.
+ * These currently fall through to the site's 404. 410 would be better — it tells
+ * Google to drop the URL permanently rather than recrawling it for months — but
+ * Vercel's `redirects` can only emit 3xx, and the legacy `routes` property that can
+ * set an arbitrary status cannot be combined with `cleanUrls`, `trailingSlash` or
+ * `redirects`, all of which this site needs. The only remaining way is a serverless
+ * function, and adding one made the Vercel deployment fail (see PR #2) on a project
+ * whose only previous function reference was committed as "broken vercel.json".
+ *
+ * So: 404 for now, deliberately, rather than a red deployment. A 301 to a loosely
+ * related page was rejected outright — Google treats an irrelevant redirect as a soft
+ * 404, so it passes no equity anyway and lands a visitor somewhere they did not ask
+ * for. A clean 404 is honest and still gets these dropped, just more slowly.
+ *
+ * To restore 410: re-add an api/gone.js returning 410 and a rewrite to it, once the
+ * Vercel build log explains why functions fail on this project.
  */
 export const legacyGone = [
   {
@@ -169,5 +180,11 @@ export const legacyGone = [
   },
 ];
 
-/** Any other .php URL from the old site. Caught after the explicit rules above. */
+/**
+ * Any other .php URL from the old site.
+ *
+ * Unused while the 410 responder is out (see legacyGone above) — there is nothing to
+ * point a catch-all at that would improve on the site's own 404. Kept so the pattern
+ * is not lost when 410 is restored.
+ */
 export const legacyPhpCatchAll = "/(.*).php";

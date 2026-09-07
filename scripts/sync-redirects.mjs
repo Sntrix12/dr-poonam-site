@@ -18,7 +18,7 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const target = path.join(root, "vercel.json");
 
-const { legacyRedirects, legacyGone, legacyPhpCatchAll } = await import(
+const { legacyRedirects, legacyGone } = await import(
   path.join(root, "src/seo/legacyRedirects.js")
 );
 const { routes } = await import(path.join(root, "src/seo/routes.js"));
@@ -40,12 +40,10 @@ const config = {
     destination: r.to,
     statusCode: 301,
   })),
-  // Evaluated after the filesystem. None of these paths exist as files, so each falls
-  // through to the 410 responder.
-  rewrites: [
-    ...legacyGone.map((g) => ({ source: g.path, destination: "/api/gone" })),
-    { source: legacyPhpCatchAll, destination: "/api/gone" },
-  ],
+  // No `rewrites`: the paths in legacyGone fall through to the site's own 404. Serving
+  // a real 410 needs a serverless function, which turns this from a purely static
+  // deployment into one with functions — and that is what broke the build. See the
+  // note on legacyGone in src/seo/legacyRedirects.js.
 };
 
 const problems = [];
@@ -96,11 +94,11 @@ if (checkOnly) {
     process.exit(1);
   }
   console.log(
-    `vercel.json in sync — ${legacyRedirects.length} redirects, ${legacyGone.length} gone, catch-all active.`,
+    `vercel.json in sync — ${legacyRedirects.length} redirects; ${legacyGone.length} URLs left to 404.`,
   );
 } else {
   await fs.writeFile(target, serialised);
   console.log(
-    `vercel.json written — ${legacyRedirects.length} redirects, ${legacyGone.length} gone, catch-all active.`,
+    `vercel.json written — ${legacyRedirects.length} redirects; ${legacyGone.length} URLs left to 404.`,
   );
 }
