@@ -16,6 +16,7 @@ export default function DoctorPortrait({ className = "", width = 822, height = 1
         alt={`${doctor.name}, ${doctor.jobTitle} in Mumbai`}
         width={width}
         height={height}
+        decoding="async"
         {...(priority ? { fetchPriority: "high" } : { loading: "lazy" })}
         className={className}
       />
