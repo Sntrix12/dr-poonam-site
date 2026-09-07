@@ -5,12 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/sync-redirects.mjs --check && vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.mjs",
+    "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.mjs",
     "lint": "oxlint",
     "preview": "vite preview",
     "build:client": "vite build",
     "redirects": "node scripts/sync-redirects.mjs",
-    "verify:redirects": "node scripts/verify-redirects.mjs"
+    "verify:redirects": "node scripts/sync-redirects.mjs --check && node scripts/verify-redirects.mjs",
+    "check:redirects": "node scripts/sync-redirects.mjs --check"
   },
   "dependencies": {
     "react": "^19.2.7",
