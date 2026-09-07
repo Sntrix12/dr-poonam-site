@@ -24,6 +24,10 @@ npm run lint
 | `src/seo/routes.js` | The route list. Pages, sitemap and prerender all read from it. |
 | `src/seo/schema.js` | JSON-LD builders. |
 | `scripts/prerender.mjs` | Renders every route to static HTML; writes sitemap.xml and llms.txt. |
+| `src/seo/legacyRedirects.js` | Redirects for the old PHP site. The single source of truth for `vercel.json`. |
+| `scripts/sync-redirects.mjs` | Regenerates `vercel.json` from that map (`npm run redirects`). `--check` runs in the build and fails on drift. |
+| `scripts/verify-redirects.mjs` | Serves `dist/` the way Vercel does and asserts every old URL 301s or 410s correctly (`npm run verify:redirects`). |
+| `api/gone.js` | Returns 410 for old URLs with no equivalent. |
 
 ## Two things to know before changing anything
 
@@ -36,6 +40,11 @@ ClaudeBot, PerplexityBot and OAI-SearchBot read raw HTML only. Anything that ren
 solely on the client is invisible to them, so avoid moving content behind an effect
 or a fetch. The build fails if a page renders too little text, renders with
 `opacity: 0`, emits no structured data, or renders the wrong component.
+
+**Do not hand-edit `vercel.json`.** It is generated from `src/seo/legacyRedirects.js`
+by `npm run redirects`, and the build fails if the committed file has drifted. Note that
+the canonical-host redirects (bare domain and http, to `https://www.`) are configured on
+the Vercel **project**, not in this file — do not recreate them here or they will clash.
 
 **Do not add `aggregateRating` or `Review` structured data.** Self-published review
 markup for your own business violates Google's structured data policy and can earn a

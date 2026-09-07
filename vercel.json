@@ -1,5 +1,131 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/index.php",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/contact.php",
+      "destination": "/contact",
+      "statusCode": 301
+    },
+    {
+      "source": "/testimonials.php",
+      "destination": "/testimonials",
+      "statusCode": 301
+    },
+    {
+      "source": "/hospital-attachments.php",
+      "destination": "/contact",
+      "statusCode": 301
+    },
+    {
+      "source": "/high-risk-pregnancies.php",
+      "destination": "/services/high-risk-pregnancies",
+      "statusCode": 301
+    },
+    {
+      "source": "/laparoscopy.php",
+      "destination": "/services/laparoscopy",
+      "statusCode": 301
+    },
+    {
+      "source": "/safe-abortions.php",
+      "destination": "/services/safe-abortions",
+      "statusCode": 301
+    },
+    {
+      "source": "/infertility-treatment.php",
+      "destination": "/services/infertility-treatment",
+      "statusCode": 301
+    },
+    {
+      "source": "/normal-vaginal-deliveries.php",
+      "destination": "/services/normal-vaginal-deliveries",
+      "statusCode": 301
+    },
+    {
+      "source": "/pre-pregnancy-counselling.php",
+      "destination": "/services/pre-pregnancy-counselling",
+      "statusCode": 301
+    },
+    {
+      "source": "/cervical-cancer-vaccine.php",
+      "destination": "/services/cervical-cancer-vaccine",
+      "statusCode": 301
+    },
+    {
+      "source": "/obstetrics-gynaecology.php",
+      "destination": "/services/obstetrics-and-gynaecology",
+      "statusCode": 301
+    },
+    {
+      "source": "/gynaec-surgeries.php",
+      "destination": "/services/gynaecological-surgeries",
+      "statusCode": 301
+    },
+    {
+      "source": "/best-doctor-for-infertility-treatment-in-andheri.php",
+      "destination": "/services/infertility-treatment",
+      "statusCode": 301
+    },
+    {
+      "source": "/best-doctor-for-safe-abortion-in-andheri.php",
+      "destination": "/services/safe-abortions",
+      "statusCode": 301
+    },
+    {
+      "source": "/best-pcod-treatment-in-andheri.php",
+      "destination": "/services/pcos-management",
+      "statusCode": 301
+    },
+    {
+      "source": "/best-obstetrician-for-high-risk-pregnancy.php",
+      "destination": "/services/high-risk-pregnancies",
+      "statusCode": 301
+    },
+    {
+      "source": "/best-menopause-treatment-in-andheri.php",
+      "destination": "/services/menopausal-counselling",
+      "statusCode": 301
+    },
+    {
+      "source": "/faq",
+      "destination": "/faqs",
+      "statusCode": 301
+    },
+    {
+      "source": "/reviews",
+      "destination": "/testimonials",
+      "statusCode": 301
+    },
+    {
+      "source": "/sitemap",
+      "destination": "/services",
+      "statusCode": 301
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/gallery.php",
+      "destination": "/api/gone"
+    },
+    {
+      "source": "/important-links.php",
+      "destination": "/api/gone"
+    },
+    {
+      "source": "/(.*).php",
+      "destination": "/api/gone"
+    }
+  ]
 }
