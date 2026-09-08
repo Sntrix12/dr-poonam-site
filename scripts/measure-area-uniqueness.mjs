@@ -42,6 +42,11 @@ const shingles = (w, n = 4) => {
   return s;
 };
 
+if (!fs.existsSync(path.join(root, "dist"))) {
+  console.error("dist/ not found — run `npm run build` first.");
+  process.exit(1);
+}
+
 const pages = areas.map((a) => {
   const html = fs.readFileSync(path.join(root, "dist", a.slug, "index.html"), "utf8");
   const w = words(mainOf(html));
