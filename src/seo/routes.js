@@ -154,6 +154,17 @@ export const routes = [
   },
 ];
 
+/**
+ * The canonical URL for a route. Used by both scripts/prerender.mjs and
+ * src/components/Seo.jsx so the static HTML and the client can never disagree —
+ * they previously differed on whether the homepage carried a trailing slash.
+ *
+ * Always the https://www. host: that is the canonical host, and the bare-domain and
+ * http forms 301 to it at the Vercel project level.
+ */
+export const canonicalFor = (routePath) =>
+  routePath === "/" ? `${SITE_URL}/` : `${SITE_URL}${routePath}`;
+
 export const routeByPath = Object.fromEntries(routes.map((r) => [r.path, r]));
 
 export const getRouteMeta = (pathname) => {

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { SITE_URL, DEFAULT_OG_IMAGE, getRouteMeta } from "../seo/routes.js";
+import { SITE_URL, DEFAULT_OG_IMAGE, getRouteMeta, canonicalFor } from "../seo/routes.js";
 
 /**
  * Keeps the document head correct during client-side navigation.
@@ -36,7 +36,7 @@ export default function Seo() {
 
   useEffect(() => {
     const meta = getRouteMeta(pathname);
-    const canonical = `${SITE_URL}${meta.path === "/" ? "" : meta.path}`;
+    const canonical = canonicalFor(meta.path);
     const ogImage = `${SITE_URL}${meta.ogImage || DEFAULT_OG_IMAGE}`;
 
     document.title = meta.title;

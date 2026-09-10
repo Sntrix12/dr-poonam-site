@@ -72,6 +72,48 @@ get a listing suspended.
 
 ---
 
+## 3b. Verify the old-site redirects are actually reaching Vercel
+
+The 26 dead URLs from the previous PHP site now have redirects committed in
+`vercel.json`. They are the correct fix, **but they only work if the request reaches
+Vercel at all.**
+
+Google reported those URLs returning a mix of **403, 500 and 404**. A Vercel static
+deployment does not naturally produce 403 or 500 for a missing `.php` file — it
+produces 404. So something was answering ahead of the app. After this deploys, check
+which of these it was:
+
+```bash
+# Should print: 301, and a Location of https://www.drpoonamnautiyal.com/contact
+curl -sSI https://www.drpoonamnautiyal.com/contact.php | head -n 3
+
+# Should print: 410
+curl -sSI https://www.drpoonamnautiyal.com/gallery.php | head -n 1
+
+# Confirms the request is being served by Vercel at all
+curl -sSI https://www.drpoonamnautiyal.com/ | grep -i "server\|x-vercel"
+```
+
+**If those return 301 and 410 — done, nothing more to do.**
+
+**If they still return 403 or 500**, the request is being intercepted before Vercel
+routing. In order of likelihood:
+
+1. **Stale Search Console data.** GSC reports what it saw when it last crawled, which
+   may pre-date the new site going live. Check the "Last crawled" date on each URL in
+   GSC. If it is older than the launch, there may be nothing wrong at all — use
+   **Validate Fix** in GSC and let it recrawl.
+2. **A firewall rule.** Vercel Dashboard → your project → **Firewall**. Requests for
+   `.php` paths look exactly like automated exploit scanning, and managed rulesets
+   commonly block them with a 403 at the edge — before redirects run. If a rule is
+   matching, add a bypass for these specific legacy paths so the redirect wins.
+3. **DNS not fully cut over.** If any old host records remain, some requests still
+   reach the previous server. Check where the domain actually resolves:
+   `dig +short www.drpoonamnautiyal.com` — it should point only at Vercel.
+
+Anything at layer 2 or 3 is outside this repository and has to be changed in the
+Vercel dashboard or at the domain registrar.
+
 ## 4. Check it looks right
 
 Open **https://www.drpoonamnautiyal.com** on a phone and click through the pages.
