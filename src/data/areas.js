@@ -1,14 +1,27 @@
 /**
- * Local landing pages, one per area where Dr. Nautiyal genuinely practises.
+ * Local landing pages, one per location where Dr. Nautiyal practises.
  *
- * Each is anchored to the real hospital she attends there — these are not spun
- * duplicates of one another. Near-identical location pages get filtered by Google
- * as doorway pages and can actively hurt a site, so every page here has its own
- * body copy, its own nearby areas, and its own reason to exist.
+ * SOURCING RULE: every sentence here must trace to something already in this repo —
+ * src/data/practice.js, src/data/services.js or src/data/testimonials.js. Nothing is
+ * asserted from general knowledge.
  *
- * No page claims specific OPD days or timings at a hospital, because none have
- * been confirmed. They direct the reader to call instead.
+ * Removed in this pass, as unsourced (see the PR for the full list and a TODO of what
+ * would let them come back):
+ *   - hospital characterisations ("a dedicated mother-and-child hospital", "maternity
+ *     focused", "a large multi-speciality hospital") — true of those brands in the
+ *     real world, but nothing in this repo says so
+ *   - every transport and landmark claim (nearest station, highway, "a short journey
+ *     from")
+ *   - "patients travel to this location from …", which is a claim about patient
+ *     volumes, and the per-area `nearbyAreas` lists that fed it. Listing neighbouring
+ *     suburbs to catch their queries is also the classic doorway-page pattern, which
+ *     is the very thing these pages are being rewritten to avoid.
+ *
+ * What differentiates each page now is its hospital, which is genuine and verifiable,
+ * plus whatever else is specifically true of that location.
  */
+
+import { clinic, contact, doctor, openingHours } from "./practice.js";
 
 export const areas = [
   {
@@ -16,69 +29,118 @@ export const areas = [
     name: "Andheri East",
     hospitalId: "criticare",
     isPrimary: true,
+
     metaTitle: "Gynaecologist in Andheri East, Mumbai | Dr. Poonam Nautiyal",
     metaDescription:
-      "Gynaecologist and obstetrician in Andheri East, Mumbai. Dr. Poonam Nautiyal, MRCOG (UK), consults on Andheri-Kurla Road, Mon to Sat. Call +91 98207 39032.",
+      "Dr. Poonam Nautiyal, MRCOG (UK), consults on Andheri-Kurla Road, Andheri East, Monday to Saturday. Attached to Criticare Hospital. Call +91 98207 39032.",
     h1: "Gynaecologist in Andheri East, Mumbai",
-    intro:
-      "Dr. Poonam Nautiyal is a Senior Consultant Gynaecologist and Obstetrician practising in Andheri East, Mumbai. Her consulting clinic is on Andheri-Kurla Road, next to Holy Family Church in Gundavali, and she is attached to Criticare Hospital in Andheri East. Consultations run Monday to Saturday, 10:00 AM to 8:00 PM, in English, Hindi, Marathi or Gujarati.",
+
+    // Sourced: clinic.locality is Andheri East, so this genuinely is the consulting
+    // base — the one thing uniquely true of this page.
+    intro: `Dr. Poonam Nautiyal's consulting clinic is in Andheri East, Mumbai. This is where consultations are held, ${openingHours.display.replace("Mon–Sat: ", "Monday to Saturday, ")}, in ${doctor.languages.slice(0, -1).join(", ")} or ${doctor.languages.slice(-1)}. She is also attached to Criticare Hospital in Andheri East.`,
+
     body: [
-      "Andheri East is the main consulting base of this practice, which makes it the easiest location to get an appointment at, including at short notice. The clinic on Andheri-Kurla Road sits next to Holy Family Church in Gundavali, within reach of Chakala, Marol, MIDC, Saki Naka, J B Nagar and Vile Parle East, and it is a straightforward journey from Andheri metro and Andheri station on the Western and Harbour lines.",
-      "The full range of care is available here: annual well-woman check-ups and Pap smears, period problems, PCOS, pregnancy care from the first positive test through to delivery, fertility assessment, menopause, and consultations before surgery. Deliveries and operations are carried out at Criticare Hospital in Andheri East or at whichever of the other attached hospitals suits you better.",
-      "If you are pregnant and looking for a gynaecologist close to home in the Andheri area, being nearby genuinely matters — antenatal visits become fortnightly and then weekly towards the end, and a long commute is the reason many women start skipping them.",
+      // Sourced: clinic.* in practice.js.
+      `The clinic address is ${clinic.streetAddress}, ${clinic.locality}, ${clinic.city} ${clinic.postalCode}. Appointments are made by phone or WhatsApp on ${contact.phoneDisplay}, or by email at ${contact.email}.`,
+      // Sourced: FAQ in src/data/faqs.js states online consultations are offered.
+      "Because this is the consulting base rather than a hospital attachment, it is usually the easiest of the four locations at which to get an appointment. Online consultations over WhatsApp or video call are also available, which suit second opinions and going through reports; anything needing a physical examination needs a visit to this clinic.",
     ],
-    nearbyAreas: ["Chakala", "Marol", "MIDC", "Saki Naka", "J B Nagar", "Vile Parle East"],
+
+    // Editorial grouping for navigation only — the page makes no claim that these are
+    // the services available here. See the TODO in the PR: which services she actually
+    // provides at each hospital is the fact that would make these genuinely distinct.
+    serviceSlugs: [
+      "obstetrics-and-gynaecology",
+      "pcos-management",
+      "menopausal-counselling",
+      "cervical-cancer-vaccine",
+    ],
   },
+
   {
     slug: "gynaecologist-in-santacruz-west",
     name: "Santacruz West",
     hospitalId: "surya",
-    metaTitle: "Gynaecologist in Santacruz West, Mumbai | Dr. Poonam Nautiyal",
+
+    metaTitle: "Gynaecologist at Surya Hospital, Santacruz West | Dr. Nautiyal",
     metaDescription:
-      "Gynaecologist at Surya Hospital, Santacruz West. Dr. Poonam Nautiyal, MRCOG (UK) — deliveries, high risk pregnancy and gynae surgery. Call to book.",
-    h1: "Gynaecologist in Santacruz West, Mumbai",
+      "Dr. Poonam Nautiyal, MRCOG (UK), is attached to Surya Hospital in Santacruz West, Mumbai. A patient review on this site describes a delivery there.",
+    h1: "Gynaecologist at Surya Hospital, Santacruz West",
+
+    // Sourced: hospitals[] in practice.js.
     intro:
-      "Dr. Poonam Nautiyal is attached to Surya Hospital in Santacruz West, Mumbai, where she handles deliveries, high-risk pregnancies and gynaecological surgery. She holds the MRCOG (UK), DNB (OBGY), DGO and MBBS, with 24 years of experience overall including 18 as a specialist.",
+      "Dr. Poonam Nautiyal is attached to Surya Hospital in Santacruz West, Mumbai, one of four Mumbai hospitals where she sees patients. She holds the MRCOG from the Royal College of Obstetricians and Gynaecologists in the United Kingdom, along with the DNB (OBGY), DGO and MBBS.",
+
     body: [
-      "Surya Hospital in Santacruz West is a dedicated mother-and-child hospital, which makes it a natural choice for patients whose pregnancy needs specialised support at delivery — twins, a previous caesarean, preeclampsia, or a baby needing neonatal care immediately after birth. Several of the patient reviews on this site describe deliveries carried out here.",
-      "The hospital is convenient for Santacruz West and East, Khar, Vile Parle, Juhu and Bandra, and is close to Santacruz station on the Western line.",
-      "Antenatal consultations can be held at the Andheri East clinic with delivery planned at Surya, or arranged to suit where you live. If you are choosing a hospital for your delivery, it is worth discussing this at your first visit rather than in the third trimester.",
+      // Sourced: the Haryy G. review in src/data/testimonials.js names Surya Hospitals
+      // and describes exactly this. Quoted rather than paraphrased into a claim.
+      "Surya is the only one of her hospital attachments named directly in a patient review on this site. Writing on Practo, Haryy G. describes his wife's caesarean there after a pregnancy complicated by preeclampsia: “The baby was born in Surya Hospitals via Cesarean… She got her own team to perform the operation. It was done at the exact time of our choice, the surgery went perfectly well.” The same review notes she invited him into the operating theatre to support his wife during the surgery.",
+      // Sourced: practice.js.
+      `Antenatal appointments before a delivery at Surya are held at the consulting clinic in ${clinic.locality}. Both are booked on ${contact.phoneDisplay}.`,
     ],
-    nearbyAreas: ["Khar", "Vile Parle West", "Juhu", "Bandra West", "Santacruz East"],
+
+    serviceSlugs: [
+      "high-risk-pregnancies",
+      "normal-vaginal-deliveries",
+      "pre-pregnancy-counselling",
+    ],
   },
+
   {
     slug: "gynaecologist-in-malad-west",
     name: "Malad West",
     hospitalId: "cloudnine",
-    metaTitle: "Gynaecologist in Malad West, Mumbai | Dr. Poonam Nautiyal",
+
+    metaTitle: "Gynaecologist at Cloudnine Hospital, Malad West | Dr. Nautiyal",
     metaDescription:
-      "Gynaecologist at Cloudnine Hospital, Malad West. Dr. Poonam Nautiyal, MRCOG (UK) — pregnancy care, normal and painless delivery, gynae surgery.",
-    h1: "Gynaecologist in Malad West, Mumbai",
+      "Dr. Poonam Nautiyal, MRCOG (UK), DNB (OBGY), is attached to Cloudnine Hospital in Malad West, Mumbai. Book on +91 98207 39032, Monday to Saturday.",
+    h1: "Gynaecologist at Cloudnine Hospital, Malad West",
+
+    // Sourced: hospitals[] in practice.js. Deliberately short — see the TODO. Nothing
+    // else in this repo says anything specific about this location.
     intro:
-      "Dr. Poonam Nautiyal is attached to Cloudnine Hospital in Malad West, Mumbai, for maternity care and gynaecological procedures. Patients across the western suburbs who want a consultant with MRCOG (UK) training closer to home can be seen and delivered here.",
+      "Dr. Poonam Nautiyal is attached to Cloudnine Hospital in Malad West, Mumbai, one of four Mumbai hospitals where she sees patients.",
+
+    // Deliberately the shortest of the four. Nothing else in this repo says anything
+    // specific about this location, and padding it with credentials and opening hours
+    // already carried on /about and in the footer would be duplicate content dressed
+    // up as substance. See the TODO in the PR for what would fix this properly.
     body: [
-      "Cloudnine in Malad West is a maternity-focused hospital, well set up for normal delivery with epidural pain relief, for caesarean sections, and for newborn care. It serves patients from Malad, Goregaon, Kandivali, Borivali and Jogeshwari, and is reachable from Malad station on the Western line and from the Western Express Highway.",
-      "For families in the far western suburbs, delivering closer to home is worth real consideration. Labour does not keep to a schedule, and a shorter journey at 3 a.m. is not a small thing.",
-      "Consultations before and after delivery can be arranged at whichever location is most practical for you — being seen at Andheri East and delivering at Malad is a common arrangement.",
+      `To ask about being seen or treated at Cloudnine, call or WhatsApp ${contact.phoneDisplay}. Consultations themselves are held at the clinic in ${clinic.locality}.`,
     ],
-    nearbyAreas: ["Goregaon West", "Kandivali", "Borivali", "Jogeshwari West", "Malad East"],
+
+    serviceSlugs: [
+      "normal-vaginal-deliveries",
+      "obstetrics-and-gynaecology",
+      "infertility-treatment",
+    ],
   },
+
   {
     slug: "gynaecologist-in-navi-mumbai",
     name: "Navi Mumbai",
     hospitalId: "apollo",
-    metaTitle: "Gynaecologist in Navi Mumbai | Dr. Poonam Nautiyal, MRCOG (UK)",
+
+    metaTitle: "Gynaecologist at Apollo Hospitals, Navi Mumbai | Dr. Nautiyal",
     metaDescription:
-      "Gynaecologist and obstetrician at Apollo Hospitals, Navi Mumbai. Dr. Poonam Nautiyal, MRCOG (UK) — high risk pregnancy, laparoscopic surgery, second opinions.",
-    h1: "Gynaecologist in Navi Mumbai",
+      "Dr. Poonam Nautiyal, MRCOG (UK), is attached to Apollo Hospitals in Navi Mumbai. Second opinions welcome. Call +91 98207 39032, Monday to Saturday.",
+    h1: "Gynaecologist at Apollo Hospitals, Navi Mumbai",
+
+    // Sourced: hospitals[] in practice.js. Also short — see the TODO.
     intro:
-      "Dr. Poonam Nautiyal is attached to Apollo Hospitals in Navi Mumbai, where she handles complex pregnancies, laparoscopic gynaecological surgery and second-opinion consultations. She is registered with the Maharashtra Medical Council and holds the MRCOG from the Royal College of Obstetricians and Gynaecologists, UK.",
+      "Dr. Poonam Nautiyal is attached to Apollo Hospitals in Navi Mumbai, the one location outside the Mumbai western suburbs among her four hospital attachments.",
+
     body: [
-      "Apollo Hospitals in Navi Mumbai is a large multi-speciality hospital, which matters for pregnancies and surgery that may need input from other specialists — cardiology, endocrinology or intensive care. It is the right setting for a pregnancy complicated by heart disease, poorly controlled diabetes or another significant medical condition.",
-      "The hospital serves Vashi, Nerul, Belapur, Kharghar, Panvel and the wider Navi Mumbai area, and is accessible from the Harbour line and the Sion-Panvel Highway.",
-      "Second opinions are a regular part of this practice, particularly for women who have been told they need a hysterectomy or surgery for a fibroid or ovarian cyst. Bring your scans and reports — a second opinion is only as good as the information it is based on.",
+      // Sourced: the Aditi Kadam Google review in src/data/testimonials.js.
+      "Second opinions are a regular part of this practice. One reviewer on Google writes that Dr. Nautiyal “saved me from an unnecessary surgical procedure that another doctor had recommended”. If you have been told you need surgery and want another view, bring your scans and reports — a second opinion is only as good as the information behind it.",
+      `Apollo is the only one of the four attachments outside the western suburbs, so it is the practical choice for patients on that side of the city. Call or WhatsApp ${contact.phoneDisplay} to arrange a consultation.`,
     ],
-    nearbyAreas: ["Vashi", "Nerul", "Belapur", "Kharghar", "Panvel"],
+
+    serviceSlugs: [
+      "laparoscopy",
+      "gynaecological-surgeries",
+      "high-risk-pregnancies",
+    ],
   },
 ];
 

@@ -38,6 +38,7 @@ export default function Footer() {
                 width="48"
                 height="48"
                 loading="lazy"
+                decoding="async"
                 className="h-12 w-auto object-contain"
               />
               <div>

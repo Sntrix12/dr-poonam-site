@@ -10,8 +10,10 @@
     "preview": "vite preview",
     "build:client": "vite build",
     "redirects": "node scripts/sync-redirects.mjs",
+    "check:redirects": "node scripts/sync-redirects.mjs --check",
     "verify:redirects": "node scripts/sync-redirects.mjs --check && node scripts/verify-redirects.mjs",
-    "check:redirects": "node scripts/sync-redirects.mjs --check"
+    "fetch:images": "node scripts/fetch-images.mjs",
+    "measure:areas": "node scripts/measure-area-uniqueness.mjs"
   },
   "dependencies": {
     "react": "^19.2.7",

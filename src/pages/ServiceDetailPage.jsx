@@ -3,6 +3,7 @@ import { clinic, contact, doctor, openingHours } from "../data/practice.js";
 import { servicesData } from "../data/services.js";
 import { testimonialForService } from "../data/testimonials.js";
 import Layout from "../components/Layout.jsx";
+import StockImage from "../components/StockImage.jsx";
 import { useBooking } from "../components/Booking.jsx";
 import NotFoundPage from "./NotFoundPage.jsx";
 
@@ -44,11 +45,11 @@ export default function ServiceDetailPage() {
             )}
           </div>
           <div className="flex-1 w-full max-w-md hidden md:block">
-            <img
+            <StockImage
               src={service.image}
-              alt={`${service.title} in Mumbai — ${doctor.name}`}
               width="1200"
               height="900"
+              priority
               className="rounded-2xl shadow-2xl object-cover aspect-[4/3] border-4 border-white/10"
             />
           </div>

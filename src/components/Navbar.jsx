@@ -41,6 +41,7 @@ export default function Navbar() {
             alt={`${doctor.name}, Gynaecologist and Obstetrician in Mumbai`}
             width="48"
             height="48"
+            decoding="async"
             className="h-10 sm:h-12 w-auto object-contain"
           />
           <span className="flex flex-col">

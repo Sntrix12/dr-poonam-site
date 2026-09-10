@@ -180,7 +180,10 @@ export const areaSchema = (area) => {
             addressRegion: "Maharashtra",
             addressCountry: "IN",
           },
-      areaServed: [area.name, ...area.nearbyAreas].map((n) => ({
+      // Was [area.name, ...area.nearbyAreas]. The per-area "nearby" lists were removed
+      // as unsourced, so this falls back to the areas the practice actually serves,
+      // which is stated in practice.js.
+      areaServed: [area.name, ...areasServed].map((n) => ({
         "@type": "Place",
         name: n,
       })),

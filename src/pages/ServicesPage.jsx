@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
-import { clinic, doctor, openingHours } from "../data/practice.js";
+import { clinic, openingHours } from "../data/practice.js";
 import { serviceCategories, servicesData } from "../data/services.js";
 import Layout from "../components/Layout.jsx";
 import Reveal from "../components/Reveal.jsx";
+import StockImage from "../components/StockImage.jsx";
 import { useBooking } from "../components/Booking.jsx";
 
 export default function ServicesPage() {
@@ -35,12 +36,10 @@ export default function ServicesPage() {
             >
               <div className="flex-1 w-full">
                 <div className="aspect-[4/3] w-full rounded-[2.5rem] overflow-hidden shadow-xl border border-[#9771e3]/10 bg-white">
-                  <img
+                  <StockImage
                     src={category.image}
-                    alt={`${category.title} in Mumbai — ${doctor.name}`}
                     width="1200"
                     height="900"
-                    loading="lazy"
                     className="w-full h-full object-cover"
                   />
                 </div>

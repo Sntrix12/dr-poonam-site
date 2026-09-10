@@ -12,6 +12,7 @@ import { testimonials } from "../data/testimonials.js";
 import { allFaqs } from "../data/faqs.js";
 import Layout from "../components/Layout.jsx";
 import Reveal from "../components/Reveal.jsx";
+import StockImage from "../components/StockImage.jsx";
 import DoctorPortrait from "../components/DoctorPortrait.jsx";
 import { openWhatsApp, useBooking } from "../components/Booking.jsx";
 
@@ -21,12 +22,10 @@ function ServiceCategoryCard({ category, delay }) {
     <Reveal delay={delay} className="h-full">
       <article className="flex flex-col h-full overflow-hidden rounded-[2rem] bg-white border border-[#9771e3]/20 shadow-sm transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 group">
         <Link to={`/services/${first}`} className="h-48 w-full overflow-hidden relative block">
-          <img
+          <StockImage
             src={category.image}
-            alt={`${category.title} — ${servicesData[first].title} in Mumbai`}
             width="600"
             height="400"
-            loading="lazy"
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
@@ -186,6 +185,7 @@ export default function HomePage() {
                     width="120"
                     height="80"
                     loading="lazy"
+                    decoding="async"
                     className="max-h-full max-w-full object-contain"
                   />
                 </div>
