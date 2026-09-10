@@ -65,7 +65,10 @@ export default function App() {
           <Route key={area.slug} path={`/${area.slug}`} element={<AreaPage slug={area.slug} />} />
         ))}
 
-        {/* Tidy aliases for URLs people are likely to type or link. */}
+        {/* Aliases for URLs people are likely to type. In production these are
+            served as real 301s by vercel.json (src/seo/legacyRedirects.js) before a
+            request ever reaches the app — these entries are the dev-server fallback,
+            since `vite dev` does not read vercel.json. */}
         <Route path="/faq" element={<Navigate to="/faqs" replace />} />
         <Route path="/reviews" element={<Navigate to="/testimonials" replace />} />
         <Route path="/sitemap" element={<Navigate to="/services" replace />} />

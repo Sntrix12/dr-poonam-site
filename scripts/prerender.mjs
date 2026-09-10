@@ -19,7 +19,7 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dist = path.join(root, "dist");
 
-const { routes, sitemapRoutes, SITE_URL, DEFAULT_OG_IMAGE } = await import(
+const { routes, sitemapRoutes, SITE_URL, DEFAULT_OG_IMAGE, canonicalFor } = await import(
   path.join(root, "src/seo/routes.js")
 );
 const { doctor, contact, clinic, openingHours, hospitals, profiles } = await import(
@@ -40,9 +40,6 @@ const escapeHtml = (s = "") =>
 /** JSON-LD goes inside a <script>, so only "<" needs neutralising. */
 const escapeJsonLd = (obj) =>
   JSON.stringify(obj).replace(/</g, "\\u003c").replace(/[\u2028\u2029]/g, "");
-
-const canonicalFor = (routePath) =>
-  routePath === "/" ? `${SITE_URL}/` : `${SITE_URL}${routePath}`;
 
 function buildHead(route) {
   const canonical = canonicalFor(route.path);
