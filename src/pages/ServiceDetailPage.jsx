@@ -99,6 +99,48 @@ export default function ServiceDetailPage() {
             </ul>
           </div>
 
+          {/* The longer clinical sections, where a page has them. See the review
+              status in src/data/serviceDepth.js. */}
+          {(service.sections || []).map((section) => (
+            <div key={section.heading}>
+              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#9771e3] mb-5">
+                {section.heading}
+              </h2>
+              {(section.paragraphs || []).map((para) => (
+                <p
+                  key={para.slice(0, 48)}
+                  className="text-[17px] text-[#475569] leading-relaxed mb-4 last:mb-0"
+                >
+                  {para}
+                </p>
+              ))}
+              {section.items?.length > 0 && (
+                <ul className="mt-5 space-y-3">
+                  {section.items.map((item) => (
+                    <li
+                      key={item.slice(0, 48)}
+                      className="flex items-start gap-4 text-[16px] text-[#475569]"
+                    >
+                      <span
+                        className="w-1.5 h-1.5 rounded-full bg-[#9771e3] shrink-0 mt-2.5"
+                        aria-hidden="true"
+                      />
+                      <span className="leading-relaxed">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {(section.after || []).map((para) => (
+                <p
+                  key={para.slice(0, 48)}
+                  className="mt-5 text-[17px] text-[#475569] leading-relaxed"
+                >
+                  {para}
+                </p>
+              ))}
+            </div>
+          ))}
+
           {review && (
             <figure className="bg-[#9771e3]/8 border-l-4 border-[#9771e3] rounded-r-2xl p-6 sm:p-7">
               <blockquote className="text-[16px] text-[#334155] italic leading-relaxed">
