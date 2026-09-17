@@ -15,6 +15,22 @@
  * It is a separate file on purpose, so that every sentence needing clinical sign-off
  * sits in one place rather than scattered through src/data/services.js.
  *
+ * All eleven services are covered. The four written first — pcos-management,
+ * high-risk-pregnancies, normal-vaginal-deliveries, infertility-treatment — set the
+ * shape the other seven follow: symptoms and when to come in; what happens at the
+ * appointment; what treatment or recovery involves, with timescales; what to bring
+ * and what to ask.
+ *
+ * THE PARTS TO READ FIRST, because they are the ones where being wrong causes harm
+ * rather than embarrassment:
+ *   - every "report the same day" and "seek help" list (high-risk-pregnancies,
+ *     normal-vaginal-deliveries, laparoscopy, gynaecological-surgeries,
+ *     safe-abortions, obstetrics-and-gynaecology)
+ *   - the legal statements in safe-abortions: who must consent, the gestational
+ *     limits, and confidentiality
+ *   - "do not stop your own medicines" in pre-pregnancy-counselling
+ *   - postmenopausal bleeding in menopausal-counselling
+ *
  * RULES FOLLOWED HERE:
  *  - Nothing is asserted about Dr. Nautiyal, her practice, her timings or her fees.
  *    Those facts live in src/data/practice.js and are not duplicated or extended.
@@ -305,6 +321,480 @@ export const serviceDepth = {
       {
         q: "Is there an age at which it is too late?",
         a: "There is no single cut-off, but the decline in egg number and quality is real, accelerates through the late thirties, and is not reversed by treatment. That is an argument for being assessed early rather than for giving up: knowing where you stand at 34 opens options that are narrower at 40. A frank conversation about your own results and what they mean is more useful than a general figure.",
+      },
+    ],
+  },
+
+  "pre-pregnancy-counselling": {
+    sections: [
+      {
+        heading: "When to book, and what you can start doing today",
+        paragraphs: [
+          "About three months before you want to start trying is the useful window. That is long enough to get blood results back, correct a thyroid dose or an iron deficiency and see the effect, and have folic acid in your system before conception rather than after it. Coming later is not wasted — a single visit still catches most of what matters — but three months is what lets a problem actually be fixed rather than only noted.",
+        ],
+        items: [
+          "Start folic acid now, at the dose advised for you. It works by preventing a defect that forms in the first few weeks, often before you know you are pregnant, so starting after a positive test is too late for the thing it prevents.",
+          "Stop smoking, and keep alcohol low — both partners. This affects egg and sperm quality, not only the pregnancy.",
+          "Address weight at either extreme, gently and early. Crash dieting immediately before conceiving is not the aim.",
+          "Bring a list of every medicine and supplement you take, and do not stop any of them on your own first.",
+        ],
+        after: [
+          "That last point is the one that matters most and is most often got wrong. Some long-term medicines do need changing before pregnancy, but stopping thyroid, epilepsy, blood pressure or mental health medicines without medical advice is more dangerous than continuing them. The change, where one is needed, is planned and supervised.",
+        ],
+      },
+      {
+        heading: "The tests usually done, and why each one is there",
+        paragraphs: [
+          "A preconception screen is a short list, and almost all of it is a single blood draw.",
+        ],
+        items: [
+          "Blood group and Rh type — so that Rh incompatibility is known about before it matters rather than after.",
+          "Haemoglobin and a full blood count. Iron deficiency is common and takes weeks to correct, which is exactly why it is better found now.",
+          "Thyroid function. An underactive thyroid is easy to miss, common in women, and directly affects both conceiving and the pregnancy.",
+          "Blood sugar, as fasting glucose or HbA1c. Where there is diabetes, control before conception matters more than control later.",
+          "Rubella immunity. If you are not immune, the vaccine is given now, because it cannot be given during pregnancy.",
+          "Hepatitis B, HIV and syphilis — the standard screen, done early so that anything found can be treated before rather than during a pregnancy.",
+          "Vitamin D, and a haemoglobin study where thalassaemia carrier status is a possibility. Carrier screening matters most when both partners are tested.",
+          "A pelvic ultrasound, to look at the uterus and ovaries before anything is riding on them.",
+        ],
+      },
+      {
+        heading: "Conditions worth sorting out before rather than during",
+        paragraphs: [
+          "A preconception visit is mostly about the few months of unhurried time it buys. Thyroid doses can be adjusted and rechecked. Blood pressure medicines that are not suitable in pregnancy can be switched to ones that are, and the new one tested for a few weeks first. Diabetes can be brought to a target before conception rather than chased after it. Acne and psoriasis medicines that must not be taken anywhere near a pregnancy can be stopped with the right gap. Epilepsy medicines can be reviewed by the specialist who prescribes them, with a plan rather than an abrupt stop.",
+          "Where there is a family history of an inherited condition on either side, this is also the point to discuss genetic screening, because the useful version of that conversation happens before a pregnancy exists.",
+        ],
+      },
+      {
+        heading: "What to bring, and what to ask",
+        paragraphs: ["Bring, and bring your partner if you can:"],
+        items: [
+          "Every medicine and supplement you both take, in their boxes if that is easier than writing them out.",
+          "Any previous blood results, however old.",
+          "Records of any previous pregnancy, miscarriage, ectopic pregnancy or caesarean, including operation notes.",
+          "A note of your cycle over the last few months.",
+          "What is known about inherited conditions on both sides of the family.",
+        ],
+        after: [
+          "Questions worth asking: is there anything in my results that needs fixing before we start, and how long will that take? Is every medicine I take safe to continue? Which vaccinations should I have now rather than later? Given my history, is there anything specific we should plan for? How long should we try before coming back?",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "How long should we wait before trying again after a miscarriage?",
+        a: "Physically, most women can try again once they have had one normal period, which makes dating the next pregnancy straightforward. There is no strong evidence that waiting longer than that improves the outcome. Emotionally is a separate question with a different answer for everybody, and it is a legitimate reason to wait as long as you want to.",
+      },
+      {
+        q: "Does a previous caesarean change what we should do before trying again?",
+        a: "It is worth raising, yes. The usual advice is to leave an interval between a caesarean and the next pregnancy so the scar heals fully, and the operation notes matter — the type of scar affects whether a vaginal birth is an option next time. Bring those notes if you have them; if you do not, the hospital that did the surgery can supply them.",
+      },
+      {
+        q: "I am over 35. Does that change the advice?",
+        a: "It makes coming in earlier more worthwhile rather than changing what is done. Fertility declines with age and the chance of some complications rises, so there is less value in waiting a year to see what happens and more in checking now that nothing straightforward is in the way. The tests themselves are the same ones.",
+      },
+    ],
+  },
+
+  laparoscopy: {
+    sections: [
+      {
+        heading: "What happens on the day of the operation",
+        paragraphs: [
+          "Laparoscopy is done under a general anaesthetic, so you will be asleep throughout and will remember none of it. You will be asked not to eat or drink from midnight, or from whatever time you are given — this is a safety requirement rather than a formality, and an operation is postponed if it is not followed.",
+          "During the procedure the abdomen is gently inflated with carbon dioxide to create room to see and work. Two or three cuts of about a centimetre are made, usually one at the navel for the camera and one or two lower down for the instruments. What is then done depends on what is being treated — a cyst removed from an ovary while keeping the ovary, a fibroid taken out, endometriosis treated, tubes checked. The gas is let out at the end and the cuts are closed with dissolvable stitches or surgical glue. Most operations take somewhere between half an hour and an hour and a half.",
+        ],
+      },
+      {
+        heading: "Recovery, day by day",
+        paragraphs: [
+          "The thing nobody warns people about, and which causes the most alarm, is shoulder-tip pain. Gas left behind irritates the diaphragm and the pain is felt in the shoulder rather than the abdomen. It is common, it has nothing to do with your shoulder, and it settles within a day or two. Walking about helps it more than lying still.",
+        ],
+        items: [
+          "Same day — awake within hours, sitting up, drinking, and usually walking. Sore, but far less so than after open surgery.",
+          "Home the same day or the next, depending on what was done and how you are.",
+          "First week — tender around the cuts, tired more than you expect, and light bleeding or spotting if the uterus or cervix was involved. Simple painkillers are usually enough.",
+          "One to two weeks — back to desk work for most people, and driving once you could do an emergency stop without hesitating, which is the actual test rather than a number of days.",
+          "Around four weeks — heavy lifting, gym and strenuous exercise, or as advised for the specific operation you had.",
+        ],
+        after: [
+          "Recovery is faster than after open surgery but it is still surgery. Tiredness in the second week is normal and is not a sign that something has gone wrong.",
+        ],
+      },
+      {
+        heading: "What to arrange beforehand",
+        paragraphs: ["Worth sorting out before the day rather than on it:"],
+        items: [
+          "Someone to take you home and stay with you the first night. You cannot drive yourself home after a general anaesthetic, and you should not be alone overnight.",
+          "Clear instructions on which of your regular medicines to take that morning and which to stop, particularly anything that thins the blood.",
+          "Time off work booked realistically, and someone to cover lifting at home if you have small children.",
+          "Loose comfortable clothes for going home, and sanitary pads.",
+          "Nail polish and jewellery off, since monitoring needs a clear fingertip.",
+        ],
+      },
+      {
+        heading: "Symptoms to report after going home",
+        paragraphs: [
+          "Pain after laparoscopy should get less each day. Anything moving in the other direction is worth a phone call rather than a wait. Contact the hospital or the doctor the same day for:",
+        ],
+        items: [
+          "Pain that is increasing rather than easing, or that painkillers no longer control.",
+          "A temperature, shivering, or feeling generally unwell.",
+          "Redness, swelling or discharge from any of the cuts.",
+          "An abdomen that becomes hard, swollen or very tender.",
+          "Being unable to pass urine, or burning when you do.",
+          "Persistent vomiting.",
+          "Pain, redness or swelling in a calf, or any breathlessness or chest pain — these need attention immediately rather than the same day.",
+          "Heavy vaginal bleeding, or discharge with an offensive smell.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "What happens if they find something unexpected during the operation?",
+        a: "It is worth agreeing in advance what you do and do not consent to, because you cannot be asked once you are asleep. A good pre-operative conversation covers the likely findings and what would be done about each, including the situations in which a laparoscopy would need to be converted to open surgery. Ask for that conversation if it has not happened, and say clearly if there is something you do not want done.",
+      },
+      {
+        q: "Will laparoscopy affect my egg reserve?",
+        a: "Ordinary laparoscopy does not. Removing an endometrioma — a cyst caused by endometriosis — can, because healthy ovarian tissue is difficult to separate from it entirely. That is a real trade-off rather than a reason not to operate, and if fertility matters to you it should be discussed explicitly, including whether ovarian reserve is worth measuring beforehand.",
+      },
+      {
+        q: "How long before I can have sex again?",
+        a: "It depends on what was done. After a simple diagnostic laparoscopy it is usually a matter of waiting until you feel comfortable, often a week or two. Where the uterus or cervix was operated on, the wait is longer and specific. Ask about your operation rather than assuming, and expect a clear answer.",
+      },
+    ],
+  },
+
+  "gynaecological-surgeries": {
+    sections: [
+      {
+        heading: "The questions to ask before agreeing to any gynaecological operation",
+        paragraphs: [
+          "Surgery is easier to agree to than to undo. These are the questions worth asking every time, and a good answer to each should be available before you decide:",
+        ],
+        items: [
+          "Does this need to happen now, and what actually happens if I wait six months?",
+          "Is there a non-surgical option — medication, a hormonal coil, watchful waiting — and why is it not the right choice for me?",
+          "Exactly what is being removed, and what is being left?",
+          "Can it be done laparoscopically or vaginally rather than open? If not, why not?",
+          "What does it mean for my hormones, my periods and my fertility?",
+          "What is the recovery, week by week, and when can I lift, drive, work and have sex again?",
+          "What are the risks, and how often do they actually happen?",
+          "Who will perform the operation, and at which hospital?",
+        ],
+        after: [
+          "And the one people feel awkward about: may I have a second opinion first? The answer should always be yes, and a doctor who is uncomfortable with the question has told you something useful.",
+        ],
+      },
+      {
+        heading: "Hysterectomy: what is removed, and what each choice means",
+        paragraphs: [
+          "Hysterectomy is not one operation, and the differences matter more than the name suggests. A total hysterectomy removes the uterus and the cervix; a subtotal leaves the cervix in place. Separately, and this is the decision that has the largest effect on how you will feel, the ovaries may be removed or left.",
+          "If the ovaries are left — and in a woman who has not yet reached menopause they usually are — you do not go into surgical menopause. Hormones come from the ovaries, not the uterus. Periods stop, because the lining that produced them has gone, but the hormonal changes of menopause arrive at their own time. If the ovaries are removed before menopause, menopause begins immediately, and that is a conversation to have properly beforehand rather than discover afterwards.",
+          "The fallopian tubes are often removed at the same time even when the ovaries are kept, because it reduces the future risk of ovarian cancer and costs nothing in hormone terms. Ask whether that is planned. Ask too whether you still need cervical smears afterwards — the answer depends on whether the cervix was removed and on your own history, and it is frequently assumed rather than checked.",
+        ],
+      },
+      {
+        heading: "Recovery, and how much the route changes it",
+        paragraphs: [
+          "The single biggest influence on recovery is not what was removed but how. A laparoscopic or vaginal hysterectomy typically means two to three weeks before normal activity; the same operation done open, through an abdominal incision, is nearer six. That is the reason the route is worth asking about, and worth a second opinion if you have been told keyhole is impossible.",
+          "Removing a fibroid while keeping the uterus is a bigger operation than it sounds and the recovery reflects what had to be done to reach the fibroid. Removing an ovarian cyst laparoscopically is often a day case with a recovery much like any other laparoscopy.",
+          "After a hysterectomy specifically, expect light vaginal bleeding or a brownish discharge on and off for several weeks as the internal stitches dissolve — this is normal and not a sign of a problem. Nothing should go into the vagina, and that includes intercourse and tampons, until you are told the top of the vagina has healed, usually around six weeks.",
+        ],
+      },
+      {
+        heading: "Symptoms to report after going home",
+        paragraphs: ["Contact the hospital or the doctor the same day for:"],
+        items: [
+          "Heavy vaginal bleeding, particularly bright red bleeding that soaks a pad.",
+          "Vaginal discharge with an offensive smell.",
+          "Pain that is increasing rather than easing, or that painkillers no longer control.",
+          "A temperature, shivering, or feeling generally unwell.",
+          "Redness, swelling or discharge from a wound.",
+          "Being unable to pass urine, or burning and urgency when you do.",
+          "Pain, redness or swelling in a calf, or any breathlessness or chest pain — immediately, not the same day.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "Will a hysterectomy change how I feel — my weight, my mood, or sex?",
+        a: "Where the ovaries are kept, the hormonal picture does not change, and most women report that sex is unaffected or better once the problem that led to the surgery is gone. Weight gain afterwards is usually about reduced activity during recovery rather than the operation itself. Mood can be genuinely affected, particularly where the loss of fertility is significant to you, and that is worth saying out loud beforehand rather than managing alone afterwards.",
+      },
+      {
+        q: "Do fibroids come back after a myomectomy?",
+        a: "They can. Myomectomy removes the fibroids that are there; it does not change the tendency to form them, so new ones can develop over the years that follow, and the chance is higher the younger you are and the more fibroids were removed. That is not an argument against the operation — it is the right choice where the uterus is to be kept — but it is worth knowing when comparing it with a hysterectomy.",
+      },
+      {
+        q: "Should my ovaries be removed at the same time?",
+        a: "Usually not, if you have not yet reached menopause and there is no specific reason to remove them. Removing healthy ovaries brings on immediate surgical menopause and its longer-term effects on bone and heart health. There are situations where it is the right decision — a strong family history, or disease involving the ovaries — and it should be a deliberate, discussed choice rather than something that happens because you were already in theatre.",
+      },
+    ],
+  },
+
+  "safe-abortions": {
+    sections: [
+      {
+        heading: "What the law actually requires, and who has to consent",
+        paragraphs: [
+          "Two things about Indian law are widely misunderstood, and both are worth stating plainly because the belief that they work the other way is what pushes women towards unsafe alternatives.",
+        ],
+        items: [
+          "If you are 18 or older and of sound mind, your consent is the only consent required. A husband's, a partner's or a parent's permission is not needed and cannot be insisted on. For a girl under 18, or a woman who is mentally ill, a guardian's written consent is required.",
+          "Your identity is protected. The Medical Termination of Pregnancy Act requires that the name and details of a woman who undergoes a termination are not disclosed except to a person authorised by law. This is a legal obligation on the doctor, not a courtesy.",
+        ],
+        after: [
+          "The time limits: a termination can be carried out up to 20 weeks on the opinion of one registered medical practitioner, and between 20 and 24 weeks for specified categories of women on the opinion of two. Beyond 24 weeks it requires approval from a state Medical Board and applies only to substantial fetal abnormality. This is also why determining the sex of the fetus is illegal under a separate Act and is never done — it has nothing to do with this decision and cannot be part of it.",
+        ],
+      },
+      {
+        heading: "What happens at the first visit",
+        paragraphs: [
+          "The first visit is an assessment, not the procedure, and nothing is done to you at it beyond a scan and some blood tests.",
+        ],
+        items: [
+          "An ultrasound, to confirm the pregnancy is in the uterus and to date it accurately. Dating is what decides which method is safe, and the scan is also what rules out an ectopic pregnancy — one growing outside the uterus, which looks like an ordinary early pregnancy on a home test and is dangerous.",
+          "Blood group and Rh type. If you are Rh negative, an anti-D injection is needed, and missing it can affect a future pregnancy.",
+          "Haemoglobin, and other blood tests as needed.",
+          "A conversation about which method suits your stage of pregnancy, what each involves, and what the follow-up will be.",
+          "Contraception, if and only if you want to discuss it. Fertility returns almost immediately, so it is worth knowing that even if you decide against anything.",
+        ],
+      },
+      {
+        heading: "The two methods, and what each is actually like",
+        paragraphs: [
+          "A medical termination uses tablets and is an option in early pregnancy only. The process happens over hours to a couple of days, mostly at home. Expect bleeding heavier than a period, with clots, and cramping stronger than period pain — painkillers are given for exactly this. It works the great majority of the time; where it does not complete, a short procedure follows, and that is why the follow-up visit is not optional.",
+          "A surgical termination is a short procedure, usually taking minutes rather than hours, done under sedation or a light anaesthetic as a day case. You go home the same day. Bleeding afterwards is generally lighter and shorter than with tablets, and completion is confirmed at the time rather than a fortnight later.",
+          "Neither method requires an overnight stay in ordinary circumstances, and both are followed by a review visit to confirm the process is complete.",
+        ],
+      },
+      {
+        heading: "Afterwards: what is normal, and what is not",
+        paragraphs: [
+          "Bleeding for several days to around two weeks is normal, as is cramping that eases over the first few days. Periods usually return within four to six weeks. Fertility returns almost immediately, before the first period, which surprises people and matters.",
+          "How you feel about it afterwards varies enormously, and there is no correct version. Relief is common and is not something to feel guilty about. Sadness is common too, and can arrive later than expected. Either is worth saying out loud at the follow-up visit rather than carrying alone.",
+        ],
+        after: [
+          "Seek medical help the same day for: bleeding that soaks two pads an hour for two hours or more; a temperature or shivering; severe pain that painkillers do not touch; discharge with an offensive smell; or pregnancy symptoms that continue for more than a week or two, which can mean the process has not completed.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "Do I need my husband's or my parents' permission?",
+        a: "If you are 18 or older and of sound mind, no. Your own consent is the only consent the law requires, and no clinic can lawfully insist on anyone else's. If you are under 18, the written consent of a guardian is required. This is the single most common misunderstanding about the law in India, and believing otherwise is what leads women to unsafe alternatives.",
+      },
+      {
+        q: "Can I just buy the tablets myself?",
+        a: "No, and this is the most dangerous thing you could do. The tablets are prescription-only for a reason: without a scan, nobody knows how many weeks pregnant you are, and nobody knows whether the pregnancy is ectopic. Taking them for an ectopic pregnancy does not end it and delays the treatment that would. Selling them without a prescription is also illegal.",
+      },
+      {
+        q: "Will this affect my ability to have children later?",
+        a: "A termination carried out properly by a doctor does not reduce future fertility. The risks that could affect it — an incomplete procedure, or an untreated infection — are exactly what the follow-up visit exists to catch, which is the reason to attend it even when you feel completely fine.",
+      },
+    ],
+  },
+
+  "obstetrics-and-gynaecology": {
+    sections: [
+      {
+        heading: "What actually happens at a well-woman check-up",
+        paragraphs: [
+          "The annual visit is short and considerably less of an ordeal than the reputation suggests. Knowing the order of it removes most of the dread.",
+        ],
+        items: [
+          "A conversation first, fully clothed: your periods, any symptoms, contraception, previous pregnancies, medicines, and family history of breast, ovarian or cervical cancer.",
+          "Blood pressure, weight and height.",
+          "A breast examination, and a word about what to look for yourself between visits.",
+          "An abdominal examination.",
+          "A speculum examination and a Pap smear, if one is due. The smear itself takes seconds — a small brush collects cells from the cervix. Uncomfortable for most women, painful for a few, and over quickly.",
+          "An internal examination with two fingers and a hand on the abdomen, to feel the size and position of the uterus and ovaries.",
+          "Blood tests where something in the conversation warrants them — haemoglobin, thyroid, blood sugar.",
+        ],
+        after: [
+          "You can ask for a chaperone, ask for anything to be explained before it is done, and ask for any part of it to stop. None of that is unusual and none of it needs justifying.",
+        ],
+      },
+      {
+        heading: "Symptoms worth an appointment rather than waiting for the annual visit",
+        paragraphs: [
+          "Most of these turn out to be something ordinary. That is not a reason to sit on them, because the small number that are not are the ones where time matters:",
+        ],
+        items: [
+          "Any bleeding after the menopause. This one always needs investigating, however light and however brief.",
+          "Bleeding between periods, or after sex.",
+          "Periods that soak a pad or tampon every hour for several hours, last more than seven days, or leave you breathless and exhausted.",
+          "Pelvic pain that persists, or pain during sex.",
+          "Discharge with an offensive smell, or with itching or soreness.",
+          "A lump in a breast, a change in the skin or nipple, or blood-stained discharge from a nipple.",
+          "Leaking urine when you cough, laugh or exercise. Common, not something to live with, and treatable.",
+          "Persistent bloating, feeling full quickly when eating, or needing to pass urine more often — especially together, and especially most days for three weeks or more.",
+        ],
+      },
+      {
+        heading: "Screening, and roughly when each is due",
+        paragraphs: [
+          "Screening schedules differ between countries and between guidelines, so treat these as the shape of it and confirm your own intervals at your visit.",
+          "Cervical screening starts in the early twenties and continues every three years with a Pap smear, or at longer intervals where HPV testing is used instead. It continues after the HPV vaccine, because no vaccine covers every cancer-causing type. Breast awareness is lifelong — knowing what is normal for you is what makes a change noticeable — with mammography worth discussing from around 40. Blood pressure and blood sugar are worth checking periodically from your thirties. Bone density becomes relevant after menopause, earlier where there are risk factors.",
+        ],
+      },
+      {
+        heading: "How to prepare, and what to bring",
+        paragraphs: ["A few things make the visit more useful:"],
+        items: [
+          "Book outside your period if a smear is due, and do not use vaginal medication, lubricant or douches for a couple of days beforehand — any of these can make the sample unreadable and mean repeating it.",
+          "Know the date your last period started. This is the question you will definitely be asked.",
+          "Bring previous Pap results, scan reports and blood tests, and a list of medicines including contraception and supplements.",
+          "Write your questions down. The one you most want to ask is the one most likely to evaporate at the door.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "Do I need to be sexually active to see a gynaecologist?",
+        a: "No. Plenty of reasons to see one have nothing to do with sex — painful, heavy or absent periods, PCOS, acne and excess hair, contraception, the HPV vaccine, or simply a conversation about what is normal. An internal examination is not part of a routine visit for someone who has never been sexually active, and will not be done without discussing it first.",
+      },
+      {
+        q: "Can I come during my period?",
+        a: "Yes for most things, and a heavy or painful period is sometimes best assessed while it is happening. The exception is a Pap smear, which needs rescheduling — blood in the sample can obscure the cells. If you are booked for a smear and your period arrives, ring ahead rather than cancelling the whole appointment.",
+      },
+      {
+        q: "Is the internal examination painful?",
+        a: "Uncomfortable rather than painful for most women, and quick. Tensing makes it harder, which is easier said than fixed — saying that you are anxious genuinely helps, because the pace changes. A smaller speculum can be used, you can ask to insert it yourself, and you can ask to stop at any point. If it has been painful before, say so at the start rather than afterwards.",
+      },
+    ],
+  },
+
+  "menopausal-counselling": {
+    sections: [
+      {
+        heading: "The symptoms of perimenopause, which are routinely mistaken for something else",
+        paragraphs: [
+          "Perimenopause can begin in the early forties, years before periods stop, and its symptoms are diffuse enough to be attributed to stress, thyroid trouble, anaemia or depression. Recognising the pattern is most of the difficulty:",
+        ],
+        items: [
+          "Cycles that change — closer together, further apart, heavier, lighter, or skipping months.",
+          "Hot flushes and night sweats, which are the symptoms everybody knows about and are not always the most troublesome.",
+          "Sleep that breaks in the early hours and does not return, whether or not there are sweats.",
+          "Mood changes, irritability, and anxiety that feels new or disproportionate.",
+          "Difficulty concentrating and word-finding — the thing people call brain fog, which is real and frightening when nobody names it.",
+          "Joint aches and stiffness, often in the hands and shoulders, and often blamed on age.",
+          "Palpitations, headaches, and skin and hair changes.",
+          "Vaginal dryness, discomfort during sex, reduced desire, and more frequent urinary infections or urgency. These, unlike the flushes, tend to worsen over time rather than pass, and they respond very well to treatment.",
+        ],
+        after: [
+          "One symptom is different from all the others: bleeding after your periods have stopped for twelve months. That is never part of normal menopause and always needs investigating, however light it is and however quickly it stops.",
+        ],
+      },
+      {
+        heading: "What happens at a menopause consultation",
+        paragraphs: [
+          "The assessment is mostly conversation, because the diagnosis is usually clinical rather than something a blood test settles.",
+        ],
+        items: [
+          "A full symptom history, including the ones people leave out — sleep, mood, concentration, sex, and bladder.",
+          "Blood pressure, weight and height.",
+          "Thyroid function, and haemoglobin where relevant, because both can mimic this almost exactly.",
+          "A hormone blood test is generally not needed over the age of 45, where the symptoms and the cycle pattern say more than the numbers do. Under 45, and particularly under 40, it becomes useful.",
+          "A review of anything that changes what is safe to prescribe: a personal history of breast cancer, a blood clot, liver disease, migraine with aura, or unexplained vaginal bleeding.",
+          "An assessment of bone and cardiovascular risk — family history, smoking, previous fractures, how much weight-bearing activity you actually do.",
+        ],
+      },
+      {
+        heading: "The options, hormonal and otherwise",
+        paragraphs: [
+          "Hormone replacement therapy replaces the oestrogen that has fallen. If you still have a uterus, a progestogen is given alongside it to protect the lining — that pairing is not optional. It can be taken as tablets, or through the skin as a patch or gel; the through-the-skin forms avoid the first pass through the liver and carry a lower risk of blood clots, which is why they are often preferred.",
+          "Vaginal oestrogen is a separate thing and is worth knowing about on its own. It is a low dose applied locally for dryness, discomfort and recurrent urinary symptoms. Very little is absorbed into the bloodstream, so its risk profile is different from systemic HRT, and it can often be used by women for whom systemic HRT is not suitable. It is also the treatment women are least likely to have been offered.",
+          "Where HRT is not wanted or not suitable there are effective non-hormonal options for flushes and for sleep, and cognitive behavioural therapy has good evidence for both flushes and the sleep disruption around them. For bone, the unglamorous things genuinely work: weight-bearing and resistance exercise, adequate calcium and vitamin D, not smoking, and keeping alcohol moderate.",
+        ],
+      },
+      {
+        heading: "What to bring, and what to ask",
+        paragraphs: ["Bring:"],
+        items: [
+          "A record of your cycles over the last year, even a rough one.",
+          "A written list of symptoms, including the ones that feel unrelated. The pattern is the diagnosis.",
+          "Your medical history and any family history of breast cancer, blood clots, heart disease or osteoporosis.",
+          "Every medicine and supplement you take, including anything bought over the counter for flushes.",
+        ],
+        after: [
+          "Questions worth asking: given my own history, what are the actual risks and benefits of HRT for me, in numbers rather than in general? Which form would you use and why that one? How long before I should feel a difference, and how long would I stay on it? What are the options if I would rather not? What should I be doing about my bones, starting now?",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "Can I still get pregnant during perimenopause?",
+        a: "Yes, and this catches people out. Ovulation becomes unpredictable rather than stopping cleanly, so contraception is still needed. The usual guidance is to continue it for one year after the last period if you are over 50, and for two years if you are under 50. HRT is not a contraceptive.",
+      },
+      {
+        q: "Does HRT cause weight gain?",
+        a: "The weight change around menopause is driven mostly by falling muscle mass, reduced activity and a shift in where fat is stored, and it happens with or without HRT. Studies do not show HRT itself causing weight gain, and some women find it easier to stay active once sleep and joint aches improve. Fluid retention in the first weeks is common and usually settles.",
+      },
+      {
+        q: "I have bleeding again after a year with no periods. What does that mean?",
+        a: "It needs to be checked, promptly, whatever the amount and however quickly it stopped. Most causes turn out to be benign — a thin, dry lining, a polyp, or the effect of HRT — but postmenopausal bleeding is also the main early symptom of cancer of the uterine lining, which is very treatable when it is caught early. This is the one symptom on the whole page not to wait on.",
+      },
+    ],
+  },
+
+  "cervical-cancer-vaccine": {
+    sections: [
+      {
+        heading: "Who it is for, and how many doses",
+        paragraphs: [
+          "The number of doses depends on the age at which the course is started, not on the age it finishes.",
+        ],
+        items: [
+          "Ages 9 to 14 — two doses, given about six months apart. The immune response at this age is strong enough that a third adds nothing, which makes this both the most effective and the cheapest window.",
+          "Ages 15 and over — three doses over about six months.",
+          "Approved and useful up to 45. Protection is against the high-risk types you have not already encountered, so it is lower than for someone vaccinated before exposure, but it is not nothing.",
+          "Boys as well as girls. HPV causes cancers of the mouth, throat, penis and anus, and genital warts, and vaccinating boys also reduces transmission.",
+        ],
+        after: [
+          "If a course was started and not finished, it does not have to be restarted. Bring the record of which doses were given and when, and the course is completed from where it stopped.",
+        ],
+      },
+      {
+        heading: "What the appointment is like",
+        paragraphs: [
+          "There is no examination, no blood test and no swab. Nothing about it requires a woman or a girl to be sexually active, and nothing is asked about it beyond what is needed for the schedule.",
+          "The injection goes into the upper arm and takes seconds. You will be asked to stay seated for about fifteen minutes afterwards — this is routine for all vaccines and is mostly about fainting, which is more common in teenagers than at any other age and is a response to the needle rather than to the vaccine.",
+          "Side effects are mostly a sore, red arm for a day or two. Headache, mild fever, tiredness or nausea happen in a minority and settle within a day. A simple painkiller is fine. Anything beyond that is uncommon enough to be worth reporting rather than expecting.",
+        ],
+      },
+      {
+        heading: "Why screening still continues afterwards",
+        paragraphs: [
+          "The vaccine protects against the HPV types that cause the large majority of cervical cancers, but not against every cancer-causing type. That gap is small, and it is precisely why cervical screening does not stop after vaccination.",
+          "So the two work together: vaccination before exposure prevents most infections, and screening catches the changes caused by whatever slipped through, at a stage where they are still easy to treat. A woman who has been vaccinated and screens on schedule has close to the best protection available against a cancer that remains one of the most common among Indian women.",
+        ],
+      },
+      {
+        heading: "What to bring, and what to ask",
+        paragraphs: ["Bring:"],
+        items: [
+          "The immunisation record or card, and details of any HPV doses already given, with dates.",
+          "A note of any allergy to a previous vaccine, and of any condition affecting the immune system.",
+          "For a daughter, whoever is going to consent, and her own questions — she is more likely to ask them than you are to guess them.",
+        ],
+        after: [
+          "Questions worth asking: which vaccine is being used and how many types does it cover? What is the cost per dose and for the full course? When exactly is the next dose due, and what happens if we are late? Does she still need cervical screening later, and from what age?",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "Does the HPV vaccine affect fertility?",
+        a: "No. There is no evidence that it affects fertility or ovarian function, and this has been looked for specifically in very large studies because the claim circulates widely. The thing that genuinely does threaten future fertility is treatment for advanced cervical cancer, which is what the vaccine exists to prevent.",
+      },
+      {
+        q: "My daughter is only twelve and not sexually active. Isn't this too early?",
+        a: "Twelve is exactly right, and for the reason the question implies. The vaccine prevents infection; it cannot clear one already present. Giving it before any exposure is what makes it work best, and at that age only two doses are needed instead of three. Vaccinating early is not an assumption about her — it is the same logic as any other vaccine given before the exposure it protects against.",
+      },
+      {
+        q: "I have already had an abnormal Pap smear or a positive HPV test. Is there any point?",
+        a: "Possibly, and it is worth asking about your own case. HPV is not one virus but a family, and the vaccine covers several high-risk types — having encountered one does not mean you have encountered the others. It does not treat an existing infection or an abnormality, so it does not replace the follow-up and treatment you need for that, which continues either way.",
       },
     ],
   },

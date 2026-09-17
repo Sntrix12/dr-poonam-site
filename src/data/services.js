@@ -466,7 +466,8 @@ export const servicesData = {
  * Kept in a separate file because every sentence of it needs clinical sign-off and
  * that is easier to review in one place than scattered through this one.
  *
- * Only pages that have been written so far appear there; the rest are untouched.
+ * All eleven services are covered there. The loop below fails loudly if that file
+ * ever names a slug this one does not.
  */
 for (const [slug, depth] of Object.entries(serviceDepth)) {
   const service = servicesData[slug];
