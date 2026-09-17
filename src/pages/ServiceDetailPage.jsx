@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router-dom";
-import { clinic, contact, doctor, openingHours } from "../data/practice.js";
+import { clinic, contact, doctor, hospitals, openingHours } from "../data/practice.js";
+import { areas } from "../data/areas.js";
 import { servicesData } from "../data/services.js";
 import { testimonialForService } from "../data/testimonials.js";
 import Layout from "../components/Layout.jsx";
@@ -16,6 +17,12 @@ export default function ServiceDetailPage() {
 
   const review = testimonialForService(slug);
   const related = (service.relatedSlugs || []).filter((s) => servicesData[s]);
+
+  // Each hospital she is attached to has a location page. Linking them from here
+  // is the reciprocal of the service links the area pages already carry.
+  const locations = hospitals
+    .map((h) => ({ hospital: h, area: areas.find((a) => a.hospitalId === h.id) }))
+    .filter((l) => l.area);
 
   return (
     <Layout className="bg-[#FAFAFF]">
@@ -63,6 +70,14 @@ export default function ServiceDetailPage() {
               What {service.title.toLowerCase()} involves
             </h2>
             <p className="text-[17px] text-[#475569] leading-relaxed">{service.detailedContent}</p>
+            <p className="mt-5 text-[16px] text-[#475569] leading-relaxed">
+              This care is provided by{" "}
+              <Link to="/about" className="font-semibold text-[#9771e3] hover:underline">
+                {doctor.name}, {doctor.credentials}
+              </Link>{" "}
+              — {doctor.experience.summary}, registered with the {doctor.registration.council}{" "}
+              (No. {doctor.registration.number}).
+            </p>
           </div>
 
           <div className="bg-white rounded-2xl p-7 sm:p-8 border border-[#9771e3]/10 shadow-sm">
@@ -92,6 +107,10 @@ export default function ServiceDetailPage() {
               <figcaption className="mt-4 text-sm text-[#64748B]">
                 <span className="font-bold text-[#1E293B]">{review.name}</span> — {review.source},{" "}
                 {review.date}
+                <span className="mx-2" aria-hidden="true">·</span>
+                <Link to="/testimonials" className="font-semibold text-[#9771e3] hover:underline">
+                  Read the full review
+                </Link>
               </figcaption>
             </figure>
           )}
@@ -108,6 +127,41 @@ export default function ServiceDetailPage() {
                 </div>
               ))}
             </div>
+          </div>
+
+          <div>
+            <h2 className="font-serif text-2xl font-bold text-[#9771e3] mb-5">
+              Where to see Dr. Nautiyal in Mumbai
+            </h2>
+            <p className="text-[16px] text-[#475569] leading-relaxed mb-5">
+              Consultations are at the {clinic.locality} clinic, {openingHours.display}. Deliveries
+              and surgery take place at the four Mumbai hospitals she is attached to:
+            </p>
+            <ul className="grid sm:grid-cols-2 gap-3">
+              {locations.map(({ hospital, area }) => (
+                <li key={hospital.id}>
+                  <Link
+                    to={`/${area.slug}`}
+                    className="block h-full bg-white rounded-xl border border-[#9771e3]/10 p-4 hover:border-[#9771e3] transition-colors"
+                  >
+                    <span className="font-bold text-[#9771e3] text-[15px] block">
+                      {hospital.name}
+                    </span>
+                    <span className="text-[13px] text-[#64748B]">
+                      {hospital.area}, {hospital.city}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-4 text-[15px] text-[#475569]">
+              Which one suits you depends on where you live and what your care needs — call to
+              confirm which days she consults at each, or see{" "}
+              <Link to="/contact" className="font-semibold text-[#9771e3] hover:underline">
+                contact and locations
+              </Link>
+              .
+            </p>
           </div>
 
           {related.length > 0 && (
@@ -138,7 +192,10 @@ export default function ServiceDetailPage() {
           <div className="sticky top-28 bg-[#9771e3] rounded-3xl p-7 text-white shadow-xl">
             <h2 className="font-serif text-xl font-bold mb-3">Book a consultation</h2>
             <p className="text-white/85 text-[14px] mb-5 leading-relaxed">
-              {doctor.name}, {doctor.credentials}.<br />
+              <Link to="/about" className="underline decoration-white/40 hover:decoration-white">
+                {doctor.name}, {doctor.credentials}
+              </Link>
+              .<br />
               {openingHours.display}
               <br />
               {clinic.locality}, {clinic.city}
