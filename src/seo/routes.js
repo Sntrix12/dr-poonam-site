@@ -23,7 +23,26 @@ import {
   graph,
 } from "./schema.js";
 
-export const DEFAULT_OG_IMAGE = "/poonam.jpg";
+/**
+ * The share card, built by scripts/make-og-image.mjs. Facebook, WhatsApp, LinkedIn
+ * and X crop a share image to roughly 1.91:1, so this is 1200×630 by design — the
+ * portrait it replaced was 822×1100 and got cropped to a slice of her face.
+ *
+ * Declaring width and height lets those crawlers lay the card out before they have
+ * fetched the image, which is the difference between a card and a bare link.
+ */
+export const DEFAULT_OG_IMAGE = {
+  url: "/og-card.jpg",
+  width: 1200,
+  height: 630,
+  alt: `${doctor.name}, ${doctor.credentials} — ${doctor.jobTitle} in ${clinic.city}`,
+};
+
+/** Resolves a route's share card, falling back to the site-wide one. */
+export const ogImageFor = (route = {}) => {
+  const image = route.ogImage || DEFAULT_OG_IMAGE;
+  return { ...image, url: `${SITE_URL}${image.url}` };
+};
 
 /** Every page carries the physician entity, so any single page is enough for a crawler. */
 const withBase = (nodes = []) => graph([physicianSchema(), websiteSchema(), ...nodes]);

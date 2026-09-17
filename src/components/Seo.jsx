@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { SITE_URL, DEFAULT_OG_IMAGE, getRouteMeta, canonicalFor } from "../seo/routes.js";
+import { getRouteMeta, canonicalFor, ogImageFor } from "../seo/routes.js";
 
 /**
  * Keeps the document head correct during client-side navigation.
@@ -37,7 +37,7 @@ export default function Seo() {
   useEffect(() => {
     const meta = getRouteMeta(pathname);
     const canonical = canonicalFor(meta.path);
-    const ogImage = `${SITE_URL}${meta.ogImage || DEFAULT_OG_IMAGE}`;
+    const ogImage = ogImageFor(meta);
 
     document.title = meta.title;
 
@@ -51,13 +51,17 @@ export default function Seo() {
     upsertMeta('meta[property="og:title"]', { property: "og:title", content: meta.title });
     upsertMeta('meta[property="og:description"]', { property: "og:description", content: meta.description });
     upsertMeta('meta[property="og:url"]', { property: "og:url", content: canonical });
-    upsertMeta('meta[property="og:image"]', { property: "og:image", content: ogImage });
+    upsertMeta('meta[property="og:image"]', { property: "og:image", content: ogImage.url });
+    upsertMeta('meta[property="og:image:width"]', { property: "og:image:width", content: String(ogImage.width) });
+    upsertMeta('meta[property="og:image:height"]', { property: "og:image:height", content: String(ogImage.height) });
+    upsertMeta('meta[property="og:image:alt"]', { property: "og:image:alt", content: ogImage.alt });
     upsertMeta('meta[property="og:type"]', { property: "og:type", content: "website" });
 
     upsertMeta('meta[name="twitter:card"]', { name: "twitter:card", content: "summary_large_image" });
     upsertMeta('meta[name="twitter:title"]', { name: "twitter:title", content: meta.title });
     upsertMeta('meta[name="twitter:description"]', { name: "twitter:description", content: meta.description });
-    upsertMeta('meta[name="twitter:image"]', { name: "twitter:image", content: ogImage });
+    upsertMeta('meta[name="twitter:image"]', { name: "twitter:image", content: ogImage.url });
+    upsertMeta('meta[name="twitter:image:alt"]', { name: "twitter:image:alt", content: ogImage.alt });
 
     let ld = document.head.querySelector('script[type="application/ld+json"][data-route]');
     if (!ld) {

@@ -19,7 +19,7 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dist = path.join(root, "dist");
 
-const { routes, sitemapRoutes, SITE_URL, DEFAULT_OG_IMAGE, canonicalFor } = await import(
+const { routes, sitemapRoutes, SITE_URL, ogImageFor, canonicalFor } = await import(
   path.join(root, "src/seo/routes.js")
 );
 const { doctor, contact, clinic, openingHours, hospitals, profiles } = await import(
@@ -43,7 +43,7 @@ const escapeJsonLd = (obj) =>
 
 function buildHead(route) {
   const canonical = canonicalFor(route.path);
-  const ogImage = `${SITE_URL}${route.ogImage || DEFAULT_OG_IMAGE}`;
+  const ogImage = ogImageFor(route);
   const robots = route.noindex
     ? "noindex, follow"
     : "index, follow, max-image-preview:large, max-snippet:-1";
@@ -62,11 +62,15 @@ function buildHead(route) {
     `<meta property="og:title" content="${escapeHtml(route.title)}" />`,
     `<meta property="og:description" content="${escapeHtml(route.description)}" />`,
     `<meta property="og:url" content="${canonical}" />`,
-    `<meta property="og:image" content="${ogImage}" />`,
+    `<meta property="og:image" content="${ogImage.url}" />`,
+    `<meta property="og:image:width" content="${ogImage.width}" />`,
+    `<meta property="og:image:height" content="${ogImage.height}" />`,
+    `<meta property="og:image:alt" content="${escapeHtml(ogImage.alt)}" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
     `<meta name="twitter:title" content="${escapeHtml(route.title)}" />`,
     `<meta name="twitter:description" content="${escapeHtml(route.description)}" />`,
-    `<meta name="twitter:image" content="${ogImage}" />`,
+    `<meta name="twitter:image" content="${ogImage.url}" />`,
+    `<meta name="twitter:image:alt" content="${escapeHtml(ogImage.alt)}" />`,
     `<script type="application/ld+json" data-route>${escapeJsonLd(route.jsonLd())}</script>`,
   ].join("\n    ");
 }
