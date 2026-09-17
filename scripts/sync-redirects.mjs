@@ -18,7 +18,7 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const target = path.join(root, "vercel.json");
 
-const { legacyRedirects, legacyGone } = await import(
+const { legacyRedirects, legacyGone, legacyPhpCatchAll } = await import(
   path.join(root, "src/seo/legacyRedirects.js")
 );
 const { routes } = await import(path.join(root, "src/seo/routes.js"));
@@ -40,10 +40,10 @@ const config = {
     destination: r.to,
     statusCode: 301,
   })),
-  // No `rewrites`: the paths in legacyGone fall through to the site's own 404. Serving
-  // a real 410 needs a serverless function, which turns this from a purely static
-  // deployment into one with functions — and that is what broke the build. See the
-  // note on legacyGone in src/seo/legacyRedirects.js.
+  // Evaluated after the filesystem, so a real file always wins and nothing on the
+  // live site can be shadowed. Every leftover .php URL reaches api/gone.js, which
+  // returns 410 — see the note on legacyGone in src/seo/legacyRedirects.js.
+  rewrites: [{ source: legacyPhpCatchAll, destination: "/api/gone" }],
 };
 
 const problems = [];
@@ -63,9 +63,31 @@ const sources = legacyRedirects.map((r) => r.from);
 const duplicates = sources.filter((s, i) => sources.indexOf(s) !== i);
 if (duplicates.length) problems.push(`duplicate redirect sources: ${duplicates.join(", ")}`);
 
+/** The catch-all as a regex, so the checks below can be run against it. */
+const catchAll = new RegExp(
+  "^" +
+    legacyPhpCatchAll
+      .split(/(\(\.\*\))/)
+      .map((part) => (part === "(.*)" ? "(.*)" : part.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")))
+      .join("") +
+    "$",
+);
+
 for (const g of legacyGone) {
   if (sources.includes(g.path)) {
     problems.push(`${g.path} is listed as both a redirect and gone`);
+  }
+  if (!catchAll.test(g.path)) {
+    problems.push(`${g.path} is listed as gone but does not match ${legacyPhpCatchAll}, so it would 404 rather than 410`);
+  }
+}
+
+// The catch-all must never be able to swallow a live page. Rewrites run after the
+// filesystem so this cannot happen in practice, but a live route ending in .php
+// would mean the mapping had gone badly wrong somewhere.
+for (const r of routes) {
+  if (catchAll.test(r.path)) {
+    problems.push(`live route ${r.path} matches the gone catch-all ${legacyPhpCatchAll}`);
   }
 }
 
@@ -94,11 +116,11 @@ if (checkOnly) {
     process.exit(1);
   }
   console.log(
-    `vercel.json in sync — ${legacyRedirects.length} redirects; ${legacyGone.length} URLs left to 404.`,
+    `vercel.json in sync — ${legacyRedirects.length} redirects; ${legacyGone.length} named URLs and any other .php served 410.`,
   );
 } else {
   await fs.writeFile(target, serialised);
   console.log(
-    `vercel.json written — ${legacyRedirects.length} redirects; ${legacyGone.length} URLs left to 404.`,
+    `vercel.json written — ${legacyRedirects.length} redirects; ${legacyGone.length} named URLs and any other .php served 410.`,
   );
 }
