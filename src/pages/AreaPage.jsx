@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { contact, doctor, hospitals, openingHours } from "../data/practice.js";
-import { getArea } from "../data/areas.js";
+import { areas, getArea } from "../data/areas.js";
 import { servicesData } from "../data/services.js";
 import Layout from "../components/Layout.jsx";
 import { useBooking } from "../components/Booking.jsx";
@@ -21,6 +21,10 @@ export default function AreaPage({ slug }) {
   if (!area) return <NotFoundPage />;
 
   const hospital = hospitals.find((h) => h.id === area.hospitalId);
+
+  // The other three locations. Cross-linking them is factual — it is the hospital
+  // list from practice.js — and it stops each area page being a dead end.
+  const otherAreas = areas.filter((a) => a.slug !== area.slug);
 
   return (
     <Layout className="bg-[#FAFAFF]">
@@ -46,6 +50,18 @@ export default function AreaPage({ slug }) {
                 {para}
               </p>
             ))}
+
+            {/* Kept to a link line rather than a paragraph on purpose: these four pages
+                are short, so any shared prose shows up as near-duplicate content. */}
+            <p className="text-[15px] text-[#475569]">
+              <Link to="/about" className="font-semibold text-[#9771e3] hover:underline">
+                Qualifications and registration
+              </Link>
+              <span className="mx-2" aria-hidden="true">·</span>
+              <Link to="/testimonials" className="font-semibold text-[#9771e3] hover:underline">
+                Patient reviews
+              </Link>
+            </p>
 
             {hospital && (
               <div className="bg-white rounded-2xl border border-[#9771e3]/10 p-6 flex items-center gap-5">
@@ -107,6 +123,20 @@ export default function AreaPage({ slug }) {
                 .
               </p>
             </div>
+
+            {/* A link row rather than a section of cards: these pages are short, so
+                every shared word costs more here than the extra styling is worth. */}
+            <p className="text-[15px] text-[#475569]">
+              Her other locations:{" "}
+              {otherAreas.map((a, i) => (
+                <span key={a.slug}>
+                  {i > 0 && <span className="mx-1.5" aria-hidden="true">·</span>}
+                  <Link to={`/${a.slug}`} className="font-semibold text-[#9771e3] hover:underline">
+                    {a.name}
+                  </Link>
+                </span>
+              ))}
+            </p>
           </div>
 
           <aside>
@@ -115,7 +145,9 @@ export default function AreaPage({ slug }) {
                 {hospital ? `Ask about ${hospital.name}` : `Ask about ${area.name}`}
               </h2>
               <p className="text-white/85 text-[14px] mb-5 leading-relaxed">
-                {doctor.name}
+                <Link to="/about" className="underline decoration-white/40 hover:decoration-white">
+                  {doctor.name}
+                </Link>
                 <br />
                 {doctor.credentials}
                 <br />

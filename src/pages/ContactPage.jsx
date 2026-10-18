@@ -167,6 +167,135 @@ export default function ContactPage() {
         </div>
       </section>
 
+      {/* ── Booking and first-visit detail. Every fact here is already stated in
+           src/data/faqs.js or src/data/practice.js; nothing new is asserted. ── */}
+      <section className="pb-14">
+        <div className="max-w-4xl mx-auto px-5 sm:px-8">
+          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#9771e3] mb-3">
+            Booking and your first visit
+          </h2>
+          <p className="text-[16px] text-[#475569] leading-relaxed mb-8">
+            Appointments are made by phone or WhatsApp, by email, or through the booking form on
+            this site. Here is what to expect and what to bring, so the first visit is not spent
+            on paperwork.
+          </p>
+
+          <div className="space-y-7">
+            <div>
+              <h3 className="font-bold text-[#1E293B] text-[17px] mb-2">
+                How to book an appointment
+              </h3>
+              <p className="text-[16px] text-[#475569] leading-relaxed">
+                Call or WhatsApp{" "}
+                <a href={contact.phoneHref} className="font-semibold text-[#9771e3] hover:underline">
+                  {contact.phoneDisplay}
+                </a>
+                , email{" "}
+                <a
+                  href={`mailto:${contact.email}`}
+                  className="font-semibold text-[#9771e3] hover:underline break-all"
+                >
+                  {contact.email}
+                </a>
+                , or use the Request a slot button above — it asks for your name, a phone number
+                and a line on what the appointment is about. Urgent requests are accommodated
+                wherever possible.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="font-bold text-[#1E293B] text-[17px] mb-2">
+                Online and video consultations
+              </h3>
+              <p className="text-[16px] text-[#475569] leading-relaxed">
+                Online consultations run over WhatsApp or video call. They work well for a second
+                opinion, for going through lab results or scan reports, and for follow-up visits.
+                Anything that needs a physical or internal examination has to be done at the
+                clinic in {clinic.locality}.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="font-bold text-[#1E293B] text-[17px] mb-2">
+                What to bring to a first appointment
+              </h3>
+              <p className="text-[16px] text-[#475569] leading-relaxed">
+                Bring whatever you already have: previous prescriptions, scan reports and blood
+                test results. Add a note of the dates of your last few periods, and a list of any
+                medicines you take regularly, including supplements. If you are pregnant, bring
+                every scan report from this pregnancy rather than only the most recent one.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="font-bold text-[#1E293B] text-[17px] mb-2">Consultation fees</h3>
+              <p className="text-[16px] text-[#475569] leading-relaxed">
+                Fees depend on which clinic or hospital you are seen at, so no figure is quoted on
+                this site. Call or WhatsApp {contact.phoneDisplay} before your visit and you will
+                be told the amount upfront, rather than at the counter afterwards.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="font-bold text-[#1E293B] text-[17px] mb-2">
+                Languages you can consult in
+              </h3>
+              <p className="text-[16px] text-[#475569] leading-relaxed">
+                Consultations are held in {doctor.languages.slice(0, -1).join(", ")} or{" "}
+                {doctor.languages.slice(-1)}. Use whichever you are most comfortable in —
+                describing a symptom precisely is easier in your own language, and it is the
+                detail that usually matters.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="font-bold text-[#1E293B] text-[17px] mb-2">
+                Second opinions before surgery
+              </h3>
+              <p className="text-[16px] text-[#475569] leading-relaxed">
+                Second opinions are a routine part of this practice and you should never feel
+                awkward asking for one. Bring your scans and reports with you. Sometimes the
+                outcome is that the operation you were told you needed turns out not to be
+                necessary.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="font-bold text-[#1E293B] text-[17px] mb-2">
+                Qualifications and registration
+              </h3>
+              <p className="text-[16px] text-[#475569] leading-relaxed">
+                {doctor.name} is registered with the {doctor.registration.council}, registration
+                number {doctor.registration.number}. She qualified MBBS from {doctor.alumniOf},
+                followed by DGO, DNB (Obstetrics &amp; Gynaecology) and MRCOG from the Royal
+                College of Obstetricians and Gynaecologists, UK, and has{" "}
+                {doctor.experience.summary}.{" "}
+                <Link to="/about" className="font-semibold text-[#9771e3] hover:underline">
+                  More about her training and background
+                </Link>
+                .
+              </p>
+            </div>
+          </div>
+
+          <p className="mt-8 text-[16px] text-[#475569] leading-relaxed">
+            Not sure which appointment you need? The{" "}
+            <Link to="/services" className="font-semibold text-[#9771e3] hover:underline">
+              services page
+            </Link>{" "}
+            explains each one, the{" "}
+            <Link to="/faqs" className="font-semibold text-[#9771e3] hover:underline">
+              FAQs
+            </Link>{" "}
+            answer the questions patients ask most often, and the{" "}
+            <Link to="/testimonials" className="font-semibold text-[#9771e3] hover:underline">
+              patient reviews page
+            </Link>{" "}
+            collects reviews from her Practo and Google profiles.
+          </p>
+        </div>
+      </section>
+
       {/* Hospitals */}
       <section className="pb-16">
         <div className="max-w-6xl mx-auto px-5 sm:px-8">

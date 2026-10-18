@@ -13,7 +13,9 @@
     "check:redirects": "node scripts/sync-redirects.mjs --check",
     "verify:redirects": "node scripts/sync-redirects.mjs --check && node scripts/verify-redirects.mjs",
     "fetch:images": "node scripts/fetch-images.mjs",
-    "measure:areas": "node scripts/measure-area-uniqueness.mjs"
+    "measure:areas": "node scripts/measure-area-uniqueness.mjs",
+    "audit:seo": "node scripts/audit-seo.mjs",
+    "og": "node scripts/make-og-image.mjs"
   },
   "dependencies": {
     "react": "^19.2.7",
