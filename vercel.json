@@ -113,5 +113,11 @@
       "destination": "/services",
       "statusCode": 301
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*).php",
+      "destination": "/api/gone"
+    }
   ]
 }

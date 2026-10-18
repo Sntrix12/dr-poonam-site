@@ -96,23 +96,57 @@ curl -sSI https://www.drpoonamnautiyal.com/ | grep -i "server\|x-vercel"
 
 **If those return 301 and 410 — done, nothing more to do.**
 
-**If they still return 403 or 500**, the request is being intercepted before Vercel
-routing. In order of likelihood:
+### If they still return 403
 
-1. **Stale Search Console data.** GSC reports what it saw when it last crawled, which
-   may pre-date the new site going live. Check the "Last crawled" date on each URL in
-   GSC. If it is older than the launch, there may be nothing wrong at all — use
-   **Validate Fix** in GSC and let it recrawl.
-2. **A firewall rule.** Vercel Dashboard → your project → **Firewall**. Requests for
-   `.php` paths look exactly like automated exploit scanning, and managed rulesets
-   commonly block them with a 403 at the edge — before redirects run. If a rule is
-   matching, add a bypass for these specific legacy paths so the redirect wins.
-3. **DNS not fully cut over.** If any old host records remain, some requests still
-   reach the previous server. Check where the domain actually resolves:
-   `dig +short www.drpoonamnautiyal.com` — it should point only at Vercel.
+**Correction to what this file said before.** It used to rank "stale Search Console
+data" as the most likely cause. That was my guess and it was wrong. Two things have
+since ruled it out:
 
-Anything at layer 2 or 3 is outside this repository and has to be changed in the
-Vercel dashboard or at the domain registrar.
+- Search Console emailed on 17 September to say a **validation attempt failed** —
+  "some of your pages are still affected". A validation run recrawls the URLs. It
+  would not have failed on stale data alone.
+- Running URL Inspection on a normal page of the site fetches fine, so whatever is
+  returning 403 is specific to the `.php` URLs, not the site as a whole.
+
+Two other things were checked and are clean, so they are not the cause either:
+
+- **DNS.** `www.drpoonamnautiyal.com` resolves through a CNAME to Vercel and to
+  nothing else. No records from the old host remain.
+- **This repository.** `vercel.json` contains no authentication or deny rules, and
+  `robots.txt` has no `Disallow` and names Googlebot as allowed. Nothing here is
+  capable of producing a 403.
+
+That leaves the edge, in front of the deployment. In order of likelihood now:
+
+1. **A Vercel Firewall rule.** Vercel Dashboard → your project → **Firewall**.
+   Requests for `.php` paths look exactly like automated exploit scanning — several
+   of these 26 URLs genuinely are scanner paths — and managed rulesets commonly block
+   them with a 403 at the edge, *before* redirects run. Look at the firewall log for
+   blocked requests to `.php`. If a rule is matching, add a bypass for these paths so
+   the redirect and the 410 can win.
+2. **Bot protection or Attack Challenge Mode.** Same Firewall page. Either can answer
+   a crawler with a 403 before the request reaches any routing.
+3. **Stale Search Console data, for some individual URLs.** Now the least likely
+   explanation overall, but still worth checking per URL: the "Last crawled" date in
+   GSC tells you whether that particular URL has been looked at since the redirects
+   went live on 10 September.
+
+### The one test that settles it
+
+In Search Console: **URL Inspection** → paste
+`https://www.drpoonamnautiyal.com/safe-abortions.php` → **Test live URL**.
+
+"Test live URL" fetches the page there and then rather than reporting what was seen
+last time, so the answer is unambiguous:
+
+- **It comes back as a redirect** → nothing is broken. The 403 is GSC's old verdict.
+  Click **Validate Fix** on the 403 issue and let it recrawl; validation runs in waves
+  over two to four weeks.
+- **It comes back 403** → something at the edge really is blocking it. Go to the
+  Vercel Firewall page above.
+
+Layers 1 and 2 are outside this repository and have to be changed in the Vercel
+dashboard.
 
 ## 4. Check it looks right
 

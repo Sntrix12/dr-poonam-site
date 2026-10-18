@@ -4,7 +4,7 @@
  * Applies Vercel's documented routing order:
  *   1. redirects (from vercel.json)   -> 3xx, before the filesystem and before any 404
  *   2. filesystem                     -> static files, with cleanUrls resolution
- *   3. rewrites                       -> here, the 410 responder
+ *   3. rewrites                       -> here, api/gone.js, which returns 410
  *   4. 404
  *
  * This validates the mapping, the ordering and the JSON itself. It does NOT run
@@ -22,6 +22,8 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dist = path.join(root, "dist");
 const config = JSON.parse(fs.readFileSync(path.join(root, "vercel.json"), "utf8"));
 const { legacyRedirects, legacyGone } = await import(path.join(root, "src/seo/legacyRedirects.js"));
+/** The real handler, not a stand-in: this is the thing that has to return 410. */
+const { default: goneHandler } = await import(path.join(root, "api/gone.js"));
 const { routes } = await import(path.join(root, "src/seo/routes.js"));
 
 /** Minimal path-to-regexp: literal segments plus Vercel's `(.*)` wildcard. */
@@ -68,12 +70,24 @@ const server = http.createServer((req, res) => {
     return res.end(fs.readFileSync(file));
   }
 
-  // 3. rewrites (none configured — see the note on legacyGone)
+  // 3. rewrites
   for (const rw of config.rewrites ?? []) {
-    if (toRegex(rw.source).test(pathname)) {
-      const target = resolveFile(rw.destination);
-      if (target) { res.writeHead(200, { "Content-Type": "text/html" }); return res.end(fs.readFileSync(target)); }
+    if (!toRegex(rw.source).test(pathname)) continue;
+
+    // Vercel would invoke the serverless function here. Run the real one, through a
+    // minimal shim of the Node response API it uses, so this asserts the status the
+    // committed handler actually sets rather than one this script made up.
+    if (rw.destination === "/api/gone") {
+      let status = 200;
+      return goneHandler(req, {
+        setHeader: (k, v) => res.setHeader(k, v),
+        status(code) { status = code; return this; },
+        send: (body) => { res.writeHead(status); res.end(body); },
+      });
     }
+
+    const target = resolveFile(rw.destination);
+    if (target) { res.writeHead(200, { "Content-Type": "text/html" }); return res.end(fs.readFileSync(target)); }
   }
 
   // 4. 404
@@ -119,21 +133,18 @@ for (const { from, to } of legacyRedirects) {
   console.log(`  301 ${from.padEnd(52)} -> ${to.padEnd(40)} 200`);
 }
 
-// Asserted as 404 rather than 410 on purpose. 410 needs a serverless function, and
-// adding one failed the Vercel deployment — see the note on legacyGone. Asserting the
-// behaviour we actually ship keeps this honest; when 410 is restored, this flips back.
-console.log("\n=== no equivalent -> 404 (410 pending, see legacyGone) ===");
+console.log("\n=== no equivalent -> 410 Gone ===");
 for (const { path: p } of legacyGone) {
   const r = await head(p);
-  if (r.status !== 404) failures.push(`${p}: expected 404, got ${r.status}`);
-  else console.log(`  404 ${p}`);
+  if (r.status !== 410) failures.push(`${p}: expected 410, got ${r.status}`);
+  else console.log(`  410 ${p}`);
 }
 
-console.log("\n=== any other old .php URL falls through to 404, never a 200 ===");
+console.log("\n=== any other old .php URL -> 410, never a 200 ===");
 for (const p of ["/services.php", "/old-page.php", "/wp-admin/setup-config.php"]) {
   const r = await head(p);
-  if (r.status !== 404) failures.push(`${p}: expected 404, got ${r.status}`);
-  else console.log(`  404 ${p}`);
+  if (r.status !== 410) failures.push(`${p}: expected 410, got ${r.status}`);
+  else console.log(`  410 ${p}`);
 }
 
 console.log("\n=== all live routes still 200 with unique titles ===");
@@ -161,5 +172,5 @@ if (config.trailingSlash !== false) failures.push("trailingSlash was changed");
 server.close();
 console.log("\n" + (failures.length
   ? "FAILURES:\n" + failures.map((f) => "  - " + f).join("\n")
-  : `All ${legacyRedirects.length} redirects and ${routes.length} live routes behave correctly; ${legacyGone.length} unmapped URLs 404.`));
+  : `All ${legacyRedirects.length} redirects and ${routes.length} live routes behave correctly; unmapped .php URLs return 410.`));
 process.exit(failures.length ? 1 : 0);
