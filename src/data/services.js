@@ -14,6 +14,8 @@
  *     experience and hospital attachments come from src/data/practice.js.
  */
 
+import { serviceDepth } from "./serviceDepth.js";
+
 export const servicesData = {
   /* ─────────── MATERNITY & PREGNANCY ─────────── */
 
@@ -457,6 +459,22 @@ export const servicesData = {
     relatedSlugs: ["obstetrics-and-gynaecology", "menopausal-counselling", "pcos-management"],
   },
 };
+
+/**
+ * The longer clinical sections live in src/data/serviceDepth.js and are folded in
+ * here, so that the page, the FAQ structured data and llms.txt all read one object.
+ * Kept in a separate file because every sentence of it needs clinical sign-off and
+ * that is easier to review in one place than scattered through this one.
+ *
+ * All eleven services are covered there. The loop below fails loudly if that file
+ * ever names a slug this one does not.
+ */
+for (const [slug, depth] of Object.entries(serviceDepth)) {
+  const service = servicesData[slug];
+  if (!service) throw new Error(`serviceDepth has no matching service: ${slug}`);
+  service.sections = depth.sections;
+  service.faqs = [...service.faqs, ...depth.faqs];
+}
 
 /** Stable ordering, used for navigation, the sitemap and llms.txt. */
 export const serviceSlugs = Object.keys(servicesData);
